@@ -73,13 +73,15 @@ export function createScene(
   scene.fog = new THREE.Fog(0x000006, 28, 55);
 
   // --- Camera ---
+  const isMobile = window.innerWidth <= 640;
   const camera = new THREE.PerspectiveCamera(
-    camCfg.fov,
+    isMobile ? camCfg.fov + 10 : camCfg.fov,
     window.innerWidth / window.innerHeight,
     0.1,
     200
   );
   camera.position.set(...camCfg.defaultPosition);
+  if (isMobile) camera.position.set(camCfg.defaultPosition[0] * 1.25, camCfg.defaultPosition[1] * 1.15, camCfg.defaultPosition[2] * 1.25);
 
   // --- Controls ---
   const controls = new OrbitControls(camera, canvas);
@@ -91,8 +93,8 @@ export function createScene(
   controls.autoRotateSpeed = camCfg.autoRotateSpeed;
   controls.maxPolarAngle = Math.PI * 0.5;
   controls.minPolarAngle = Math.PI * 0.1;
-  controls.minDistance = camCfg.minDistance;
-  controls.maxDistance = camCfg.maxDistance;
+  controls.minDistance = isMobile ? camCfg.minDistance * 1.1 : camCfg.minDistance;
+  controls.maxDistance = isMobile ? camCfg.maxDistance * 1.15 : camCfg.maxDistance;
 
   // --- Parse colors ---
   const MESH_COLOR = parseInt(colors.meshBase.replace('#', ''), 16);
@@ -202,7 +204,9 @@ export function createScene(
 
   scene.add(world);
 
-  const defaultPosition = new THREE.Vector3(...camCfg.defaultPosition);
+  const defaultPosition = isMobile
+    ? new THREE.Vector3(camCfg.defaultPosition[0] * 1.25, camCfg.defaultPosition[1] * 1.15, camCfg.defaultPosition[2] * 1.25)
+    : new THREE.Vector3(...camCfg.defaultPosition);
   const defaultTarget = new THREE.Vector3(...camCfg.defaultTarget);
 
   return {
@@ -220,7 +224,7 @@ export function createScene(
     sparkleCount,
     defaultPosition,
     defaultTarget,
-    overviewDistance: camCfg.overviewDistance,
+    overviewDistance: isMobile ? camCfg.overviewDistance * 1.2 : camCfg.overviewDistance,
     selectNode: () => {},  // Wired in main.ts
     closeOverlay: () => {}, // Wired in main.ts
     showContact: () => {},  // Wired in main.ts

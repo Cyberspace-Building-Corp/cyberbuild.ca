@@ -20,7 +20,7 @@
 <!-- ============================================
      NAVIGATION
      ============================================ -->
-<nav class="nav">
+<nav class="nav" id="nav">
   <div class="nav__logo" id="logoHome" style="cursor:pointer">
     <svg class="nav__logo-svg" width="56" height="42" viewBox="0 0 100 80" fill="none" xmlns="http://www.w3.org/2000/svg" overflow="visible">
       <path class="trace" d="M0 30 L 25 30 L 35 15 L 50 15" stroke="#00E5FF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
@@ -34,6 +34,12 @@
     </svg>
     <div class="nav__logo-text"><span class="highlight">Cyberspace</span> Building Corp.</div>
   </div>
+
+  <button class="nav__toggle" id="navToggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navLinks">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
 
   <ul class="nav__links" id="navLinks">
     <li><a data-block="overview" class="nav__link nav__link--active">Overview</a></li>

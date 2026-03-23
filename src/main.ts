@@ -51,6 +51,8 @@ const overlayCard = document.getElementById('overlayCard')!;
 const hint = document.getElementById('hint')!;
 const searchInput = document.getElementById('searchInput') as HTMLInputElement;
 const searchResults = document.getElementById('searchResults')!;
+const nav = document.getElementById('nav')!;
+const navToggle = document.getElementById('navToggle') as HTMLButtonElement;
 const navLinks = document.querySelectorAll<HTMLAnchorElement>('#navLinks a');
 
 // --- Init ---
@@ -66,7 +68,7 @@ let animating = false;
 
 // --- Overlay helpers ---
 function showOverlay(html: string): void {
-  overlayCard.innerHTML = `<button class="overlay-close" id="oc">&times;</button>${html}`;
+  overlayCard.innerHTML = `<button class="overlay__close" id="oc" type="button" aria-label="Close overlay">&times;</button>${html}`;
   overlay.classList.add('overlay--open');
   document.getElementById('oc')!.addEventListener('click', closeOverlay);
 }
@@ -91,6 +93,8 @@ function closeOverlay(): void {
   selectedKey = null;
   overlay.classList.remove('overlay--open');
   hint.classList.remove('scene__hint--hidden');
+  nav.classList.remove('nav--open');
+  navToggle.setAttribute('aria-expanded', 'false');
   resetNodeVisuals();
 
   const dir = state.camera.position.clone().sub(state.controls.target).normalize();
@@ -195,8 +199,15 @@ canvas.addEventListener('click', () => {
 // --- Nav ---
 document.getElementById('overlayBg')!.addEventListener('click', closeOverlay);
 document.getElementById('logoHome')!.addEventListener('click', closeOverlay);
+navToggle.addEventListener('click', () => {
+  const next = !nav.classList.contains('nav--open');
+  nav.classList.toggle('nav--open', next);
+  navToggle.setAttribute('aria-expanded', String(next));
+});
 navLinks.forEach((a) =>
   a.addEventListener('click', () => {
+    nav.classList.remove('nav--open');
+    navToggle.setAttribute('aria-expanded', 'false');
     const k = a.dataset.block!;
     if (k === 'overview') closeOverlay();
     else if (k === 'contact') showContact();

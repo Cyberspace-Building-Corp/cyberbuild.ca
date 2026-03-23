@@ -184,6 +184,30 @@
 
 /* --- Mobile --- */
 @media (max-width: 640px) {
-  .overlay__card { width: 96%; }
+  .overlay {
+    align-items: flex-start;
+    padding: 5rem 0.5rem 1rem;
+  }
+
+  .overlay__card {
+    width: 100%;
+    max-height: calc(100vh - 6rem);
+    padding: 1rem 1rem 1.25rem;
+  }
+
+  .overlay__close {
+    top: 0.6rem;
+    right: 0.6rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    font-size: 1.1rem;
+    background: rgba(10, 12, 28, 0.92);
+    z-index: 2;
+  }
+
+  .card__title {
+    padding-right: 2.5rem;
+  }
+
   .card__tech-grid { grid-template-columns: 1fr; }
 }
