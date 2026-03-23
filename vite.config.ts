@@ -1,8 +1,10 @@
 import { defineConfig } from 'vite';
 import seoInjectPlugin from './vite-plugin-inject';
 
+import { cloudflare } from "@cloudflare/vite-plugin";
+
 export default defineConfig({
-  plugins: [seoInjectPlugin()],
+  plugins: [seoInjectPlugin(), cloudflare()],
   build: {
     target: 'es2020',
     outDir: 'dist',
