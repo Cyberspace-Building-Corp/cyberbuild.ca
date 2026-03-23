@@ -241,13 +241,22 @@ function drawArchitecture(
   cy: number,
   u: number
 ): void {
-  ctx.lineWidth = u * 0.22;
-
   const lx = cx;
   const ly = cy - u * 1.2;
   const bR = u * 1.3;
 
-  // Lightbulb — full closed shape
+  // === LIGHTBULB — yellow/white with warm glow ===
+  const bulbColor = '#ffe066';
+  const glowColor = '#ffdd44';
+
+  // Outer glow halo
+  ctx.save();
+  ctx.shadowColor = glowColor;
+  ctx.shadowBlur = u * 3;
+  ctx.strokeStyle = bulbColor;
+  ctx.lineWidth = u * 0.22;
+
+  // Bulb outline
   ctx.beginPath();
   ctx.moveTo(lx - u * 0.45, ly + bR * 0.9);
   ctx.quadraticCurveTo(lx - bR * 0.85, ly + bR * 0.3, lx - bR, ly - u * 0.3);
@@ -256,15 +265,22 @@ function drawArchitecture(
   ctx.lineTo(lx - u * 0.45, ly + bR * 0.9);
   ctx.stroke();
 
-  // Screw base
+  // Inner fill glow (subtle warm wash)
+  ctx.globalAlpha = 0.06;
+  ctx.fillStyle = '#ffee88';
+  ctx.fill();
+  ctx.globalAlpha = 1;
+
+  // Screw base — warm white
   ctx.lineWidth = u * 0.16;
   ctx.beginPath(); ctx.moveTo(lx - u * 0.4, ly + bR * 1.05); ctx.lineTo(lx + u * 0.4, ly + bR * 1.05); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(lx - u * 0.3, ly + bR * 1.2); ctx.lineTo(lx + u * 0.3, ly + bR * 1.2); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(lx - u * 0.15, ly + bR * 1.32); ctx.lineTo(lx + u * 0.15, ly + bR * 1.32); ctx.stroke();
 
-  // Puzzle divisions
+  // Puzzle divisions inside bulb — softer yellow
+  ctx.strokeStyle = '#ffdd88';
   ctx.lineWidth = u * 0.12;
-  ctx.globalAlpha = 0.6;
+  ctx.globalAlpha = 0.5;
   ctx.beginPath(); ctx.moveTo(lx, ly - u * 0.3 - bR * 0.85); ctx.lineTo(lx, ly + bR * 0.55); ctx.stroke();
   ctx.beginPath();
   ctx.moveTo(lx - bR * 0.55, ly);
@@ -275,7 +291,9 @@ function drawArchitecture(
   ctx.stroke();
   ctx.globalAlpha = 1;
 
-  // Rays
+  // Rays — bright warm glow
+  ctx.strokeStyle = bulbColor;
+  ctx.shadowBlur = u * 2;
   ctx.lineWidth = u * 0.15;
   const rays = 6;
   for (let i = 0; i < rays; i++) {
@@ -287,7 +305,9 @@ function drawArchitecture(
     ctx.beginPath(); ctx.moveTo(rx, ry); ctx.lineTo(rx2, ry2); ctx.stroke();
   }
 
-  // Hierarchy tree below
+  ctx.restore(); // Back to service color + default shadow
+
+  // === HIERARCHY TREE below — stays in service color ===
   const ty = cy + u * 2.2;
   ctx.lineWidth = u * 0.18;
   ctx.beginPath(); ctx.moveTo(lx, ly + bR * 1.35); ctx.lineTo(lx, ty); ctx.stroke();
@@ -295,13 +315,10 @@ function drawArchitecture(
   const boxW = u * 1.0;
   const boxH = u * 0.7;
   const boxes = [-u * 2.2, 0, u * 2.2];
-  // Horizontal branch — centered on lx
   ctx.beginPath(); ctx.moveTo(lx + boxes[0], ty + boxH / 2); ctx.lineTo(lx + boxes[2], ty + boxH / 2); ctx.stroke();
 
   boxes.forEach((bx) => {
-    // Vertical drop from branch to box
     ctx.beginPath(); ctx.moveTo(lx + bx, ty + boxH / 2); ctx.lineTo(lx + bx, ty + boxH); ctx.stroke();
-    // Box
     ctx.strokeRect(lx + bx - boxW / 2, ty + boxH, boxW, boxH);
   });
 }
