@@ -295,10 +295,13 @@ function drawArchitecture(
   const boxW = u * 1.0;
   const boxH = u * 0.7;
   const boxes = [-u * 2.2, 0, u * 2.2];
-  ctx.beginPath(); ctx.moveTo(boxes[0], ty + boxH / 2); ctx.lineTo(boxes[2], ty + boxH / 2); ctx.stroke();
+  // Horizontal branch — centered on lx
+  ctx.beginPath(); ctx.moveTo(lx + boxes[0], ty + boxH / 2); ctx.lineTo(lx + boxes[2], ty + boxH / 2); ctx.stroke();
 
   boxes.forEach((bx) => {
-    ctx.beginPath(); ctx.moveTo(bx, ty + boxH / 2); ctx.lineTo(bx, ty + boxH); ctx.stroke();
+    // Vertical drop from branch to box
+    ctx.beginPath(); ctx.moveTo(lx + bx, ty + boxH / 2); ctx.lineTo(lx + bx, ty + boxH); ctx.stroke();
+    // Box
     ctx.strokeRect(lx + bx - boxW / 2, ty + boxH, boxW, boxH);
   });
 }
