@@ -1,0 +1,40 @@
+name: Promote master to stage
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: "Type stage to confirm"
+        required: true
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate confirmation
+        run: |
+          test "${{ github.event.inputs.confirm }}" = "stage"
+
+      - name: Checkout master
+        uses: actions/checkout@v4
+        with:
+          ref: master
+          fetch-depth: 0
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Fetch branches
+        run: git fetch origin master stage
+
+      - name: Fast-forward stage from master
+        run: |
+          git checkout stage
+          git merge --ff-only origin/master
+          git push origin stage

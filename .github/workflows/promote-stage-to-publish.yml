@@ -1,0 +1,40 @@
+name: Promote stage to publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: "Type publish to confirm"
+        required: true
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate confirmation
+        run: |
+          test "${{ github.event.inputs.confirm }}" = "publish"
+
+      - name: Checkout stage
+        uses: actions/checkout@v4
+        with:
+          ref: stage
+          fetch-depth: 0
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Fetch branches
+        run: git fetch origin stage publish
+
+      - name: Fast-forward publish from stage
+        run: |
+          git checkout publish
+          git merge --ff-only origin/stage
+          git push origin publish
