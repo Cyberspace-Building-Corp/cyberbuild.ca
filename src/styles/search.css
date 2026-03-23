@@ -1,0 +1,89 @@
+/* ============================================
+   CYBERBUILD.CA — Search Results
+   ============================================ */
+
+.search-results {
+  position: absolute;
+  top: calc(100% + 0.4rem);
+  right: 0;
+  width: 22rem;
+  max-height: 24rem;
+  overflow-y: auto;
+  background: rgba(10, 12, 28, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border-subtle);
+  display: none;
+  z-index: 200;
+}
+
+.search-results--open {
+  display: block;
+}
+
+.search-results::-webkit-scrollbar { width: 3px; }
+.search-results::-webkit-scrollbar-thumb {
+  background: rgba(58, 158, 253, 0.2);
+  border-radius: 2px;
+}
+
+.search-results__group {
+  padding: 0.6rem 0.8rem 0.3rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--brand-blue-light);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border-faint);
+}
+
+.search-results__item {
+  padding: 0.5rem 0.8rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  transition: background var(--transition-fast);
+  border-bottom: 1px solid rgba(58, 158, 253, 0.05);
+}
+
+.search-results__item:hover,
+.search-results__item--active {
+  background: rgba(58, 158, 253, 0.08);
+}
+
+.search-results__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.search-results__text {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: var(--font-small);
+  color: var(--text-body);
+}
+
+.search-results__text mark {
+  background: none;
+  color: var(--brand-blue-light);
+  font-weight: 600;
+}
+
+.search-results__category {
+  margin-left: auto;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.55rem;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.search-results__empty {
+  padding: 1rem 0.8rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: var(--font-small);
+  color: var(--text-dim);
+  text-align: center;
+}

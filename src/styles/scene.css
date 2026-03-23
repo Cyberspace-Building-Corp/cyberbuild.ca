@@ -1,0 +1,54 @@
+/* ============================================
+   CYBERBUILD.CA — Scene (Canvas, Tooltip, Hint)
+   ============================================ */
+
+.scene__canvas {
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  cursor: grab;
+}
+
+.scene__canvas:active {
+  cursor: grabbing;
+}
+
+.scene__tooltip {
+  position: fixed;
+  pointer-events: none;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: var(--font-tech);
+  color: #cc99ff;
+  background: var(--bg-card);
+  border: 1px solid rgba(120, 80, 200, 0.25);
+  padding: 0.3rem 0.7rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+  z-index: 50;
+}
+
+.scene__tooltip--visible {
+  opacity: 1;
+}
+
+.scene__hint {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: var(--font-small);
+  color: var(--text-nav);
+  letter-spacing: 2px;
+  opacity: 0.3;
+  text-transform: uppercase;
+  pointer-events: none;
+  transition: opacity var(--transition-slow);
+  z-index: 10;
+}
+
+.scene__hint--hidden {
+  opacity: 0;
+}

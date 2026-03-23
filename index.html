@@ -1,775 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cyberspace Building Corp</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap');
-*{margin:0;padding:0;box-sizing:border-box}
-/* Dynamic root: 16px at 1920px, scales proportionally to any resolution.
-   min 14px (tiny screens), max 20px (4K+). Everything in rem inherits this. */
-html{font-size:clamp(14px, 0.833vw + 0.25rem, 20px)}
-body{background:#000006;color:#7a8fb0;font-family:'Rajdhani',sans-serif;overflow:hidden}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cyberspace Building Corp — Solution Architecture & Data Engineering</title>
+  <meta name="description" content="Enterprise solution architecture, data engineering, and cloud infrastructure consulting. SQL Server, Azure, Microsoft Fabric, .NET, Python. Serving Simcoe County, GTA, and worldwide.">
+  <meta name="keywords" content="solution architecture, data engineering, SQL Server, Azure, Microsoft Fabric, Power BI, .NET, Python, Kubernetes, cloud infrastructure, Ontario, Canada">
+  <meta property="og:title" content="Cyberspace Building Corp">
+  <meta property="og:description" content="Enterprise solution architecture, data engineering, and cloud infrastructure consulting.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://cyberbuild.ca">
+  <link rel="canonical" href="https://cyberbuild.ca">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0.85rem 2rem;display:flex;justify-content:space-between;align-items:center;background:rgba(0,0,6,0.9);backdrop-filter:blur(16px);border-bottom:1px solid rgba(120,80,200,0.08)}
-.logo{display:flex;align-items:center;gap:0.7rem}
-.logo-svg{flex-shrink:0}
-.logo-text{font-family:'Rajdhani';font-weight:600;font-size:1.05rem;color:rgba(255,255,255,0.8);line-height:1;white-space:nowrap}
-.logo-text span{color:#3a9efd;font-weight:600;animation:textPulse 1.2s ease-in-out 2.4s forwards}
-
-/* Logo trace draw-on animation */
-.trace{stroke-dasharray:200;stroke-dashoffset:200;animation:traceDraw 1.5s ease-in-out forwards}
-.t2{animation-delay:0.2s}
-.t3{animation-delay:0.4s}
-.t4{animation-delay:0.6s}
-@keyframes traceDraw{to{stroke-dashoffset:0}}
-
-.node{opacity:0;transform-box:fill-box;transform-origin:center;animation:nodePop 0.3s ease-out forwards}
-.n1{animation-delay:1.5s}
-.n2{animation-delay:1.7s}
-.n3{animation-delay:1.9s}
-.n4{animation-delay:2.1s}
-@keyframes nodePop{0%{opacity:0;transform:scale(0)}100%{opacity:1;transform:scale(1)}}
-
-/* Cyberspace text pulses bright then settles slightly brighter than original */
-@keyframes textPulse{
-  0%{color:#3a9efd;text-shadow:none}
-  40%{color:#8ad4ff;text-shadow:0 0 12px rgba(90,180,255,0.6),0 0 30px rgba(58,158,253,0.3)}
-  100%{color:#5bb8ff;text-shadow:0 0 4px rgba(90,180,255,0.15)}
-}
-.nav-links{display:flex;gap:1.5rem;list-style:none}
-.nav-links a{font-family:'Share Tech Mono',monospace;font-size:0.8rem;color:#7a8fb0;text-decoration:none;letter-spacing:2px;text-transform:uppercase;cursor:pointer;padding:0.2rem 0;position:relative;transition:color 0.3s}
-.nav-links a:hover,.nav-links a.active{color:#5cb8ff}
-.nav-links a.active::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:1px;background:#3a9efd}
-
-/* SEARCH */
-.nav-search{position:relative;margin-left:1rem}
-.nav-search input{font-family:'Share Tech Mono',monospace;font-size:0.75rem;color:#c0cde0;background:rgba(10,12,28,0.7);border:1px solid rgba(58,158,253,0.15);padding:0.35rem 0.6rem 0.35rem 1.8rem;width:12rem;outline:none;letter-spacing:0.5px;transition:border-color 0.3s,width 0.3s}
-.nav-search input::placeholder{color:#4a5a7a}
-.nav-search input:focus{border-color:rgba(58,158,253,0.4);width:16rem}
-.search-icon{position:absolute;left:0.5rem;top:50%;transform:translateY(-50%);color:#4a5a7a;pointer-events:none;transition:color 0.3s}
-.nav-search input:focus ~ .search-icon,
-.nav-search:focus-within .search-icon{color:#5cb8ff}
-.search-results{position:absolute;top:calc(100% + 0.4rem);right:0;width:22rem;max-height:24rem;overflow-y:auto;background:rgba(10,12,28,0.95);backdrop-filter:blur(20px);border:1px solid rgba(58,158,253,0.2);display:none;z-index:200}
-.search-results.open{display:block}
-.search-results::-webkit-scrollbar{width:3px}
-.search-results::-webkit-scrollbar-thumb{background:rgba(58,158,253,0.2);border-radius:2px}
-.sr-group{padding:0.6rem 0.8rem 0.3rem;font-family:'Share Tech Mono',monospace;font-size:0.6rem;color:#5cb8ff;letter-spacing:2px;text-transform:uppercase;border-bottom:1px solid rgba(58,158,253,0.08)}
-.sr-item{padding:0.5rem 0.8rem;cursor:pointer;display:flex;align-items:center;gap:0.6rem;transition:background 0.15s;border-bottom:1px solid rgba(58,158,253,0.05)}
-.sr-item:hover,.sr-item.active{background:rgba(58,158,253,0.08)}
-.sr-item .sr-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
-.sr-item .sr-text{font-family:'Share Tech Mono',monospace;font-size:0.75rem;color:#c0cde0}
-.sr-item .sr-text mark{background:none;color:#5cb8ff;font-weight:600}
-.sr-item .sr-cat{margin-left:auto;font-family:'Share Tech Mono',monospace;font-size:0.55rem;color:#5a6a8a;letter-spacing:1px;text-transform:uppercase;flex-shrink:0}
-.sr-empty{padding:1rem 0.8rem;font-family:'Share Tech Mono',monospace;font-size:0.75rem;color:#5a6a8a;text-align:center}
-
-#canvas{width:100vw;height:100vh;display:block;cursor:grab}
-#canvas:active{cursor:grabbing}
-
-.tooltip{position:fixed;pointer-events:none;font-family:'Share Tech Mono',monospace;font-size:0.8rem;color:#cc99ff;background:rgba(0,0,6,0.94);border:1px solid rgba(120,80,200,0.25);padding:0.3rem 0.7rem;letter-spacing:2px;text-transform:uppercase;opacity:0;transition:opacity 0.15s;z-index:50}
-.tooltip.visible{opacity:1}
-
-.hint{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);font-family:'Share Tech Mono',monospace;font-size:0.75rem;color:#7a8fb0;letter-spacing:2px;opacity:0.3;text-transform:uppercase;pointer-events:none;transition:opacity 0.5s;z-index:10}
-.hint.hidden{opacity:0}
-
-/* CENTER OVERLAY */
-.overlay{position:fixed;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;z-index:80;pointer-events:none;opacity:0;transition:opacity 0.35s}
-.overlay.open{opacity:1;pointer-events:auto}
-.overlay-bg{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,6,0.45);cursor:pointer}
-.overlay-card{position:relative;width:92%;max-width:36rem;max-height:82vh;overflow-y:auto;background:rgba(10,12,28,0.92);backdrop-filter:blur(30px);border:1px solid rgba(58,158,253,0.25);box-shadow:0 0 40px rgba(0,0,0,0.5),inset 0 0 60px rgba(10,12,28,0.3);padding:2rem 2.2rem;z-index:81}
-.overlay-card::-webkit-scrollbar{width:4px}
-.overlay-card::-webkit-scrollbar-track{background:transparent}
-.overlay-card::-webkit-scrollbar-thumb{background:rgba(120,80,200,0.2);border-radius:2px}
-.overlay-close{position:absolute;top:0.8rem;right:1rem;background:none;border:1px solid rgba(58,158,253,0.2);color:#8a9fc0;width:1.8rem;height:1.8rem;cursor:pointer;font-family:'Share Tech Mono';font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all 0.3s}
-.overlay-close:hover{border-color:#5cb8ff;color:#e8f0ff}
-
-.overlay-card .badge{display:inline-block;font-family:'Share Tech Mono',monospace;font-size:0.7rem;letter-spacing:3px;text-transform:uppercase;padding:0.3rem 0.65rem;margin-bottom:1rem}
-.overlay-card h2{font-family:'Orbitron';font-size:1.35rem;font-weight:600;color:#ffffff;letter-spacing:2px;text-transform:uppercase;margin-bottom:1rem}
-.overlay-card p{font-size:1rem;line-height:1.8;color:#c0cde0;margin-bottom:0.7rem}
-.overlay-card .tech-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.4rem 1.5rem;margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(58,158,253,0.12)}
-.overlay-card .tech-grid span{font-family:'Share Tech Mono';font-size:0.8rem;color:#c8d6ea;padding:0.25rem 0;display:flex;align-items:center;gap:0.4rem}
-.overlay-card .tech-grid span::before{content:'';width:5px;height:5px;border-radius:50%;flex-shrink:0}
-
-/* CONTACT OVERLAY */
-.overlay-card .contact-links{display:flex;flex-direction:column;gap:0.8rem;margin-top:1.2rem}
-.overlay-card .contact-links a{font-family:'Share Tech Mono',monospace;font-size:0.9rem;color:#c0cde0;text-decoration:none;display:flex;align-items:center;gap:0.8rem;padding:0.6rem 0;border-bottom:1px solid rgba(58,158,253,0.1);transition:color 0.3s;letter-spacing:0.5px}
-.overlay-card .contact-links a:hover{color:#5cb8ff}
-.overlay-card .contact-links a .ico{width:2rem;height:2rem;border:1px solid rgba(58,158,253,0.2);display:flex;align-items:center;justify-content:center;font-size:0.75rem;color:#5cb8ff;flex-shrink:0;transition:border-color 0.3s}
-.overlay-card .contact-links a:hover .ico{border-color:rgba(58,158,253,0.4)}
-.overlay-card .location{font-family:'Share Tech Mono',monospace;font-size:0.75rem;color:#7a8fb0;letter-spacing:2px;margin-top:1.5rem;text-transform:uppercase}
-
-@media(max-width:640px){.overlay-card{width:96%}.overlay-card .tech-grid{grid-template-columns:1fr}.nav-links{gap:0.7rem}.nav-links a{font-size:0.65rem;letter-spacing:1px}}
-</style>
+  <!-- JSON-LD structured data injected by vite-plugin-seo-inject at build time -->
 </head>
 <body>
-<nav>
-  <div class="logo" id="logoHome" style="cursor:pointer">
-    <svg class="logo-svg" width="56" height="42" viewBox="0 0 100 80" fill="none" xmlns="http://www.w3.org/2000/svg" overflow="visible">
-      <path class="trace t1" d="M0 30 L 25 30 L 35 15 L 50 15" stroke="#00E5FF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle class="node n1" cx="50" cy="15" r="4" stroke="#00E5FF" stroke-width="3" fill="#000006"/>
-      <path class="trace t2" d="M0 40 L 30 40 L 40 28 L 55 28" stroke="#D500F9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle class="node n2" cx="55" cy="28" r="4" stroke="#D500F9" stroke-width="3" fill="#000006"/>
-      <path class="trace t3" d="M0 50 L 65 50" stroke="#FFC400" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle class="node n3" cx="65" cy="50" r="4" stroke="#FFC400" stroke-width="3" fill="#000006"/>
-      <path class="trace t4" d="M0 60 L 25 60 L 40 75 L 50 75" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle class="node n4" cx="50" cy="75" r="4" stroke="#FFFFFF" stroke-width="3" fill="#000006"/>
+
+<!-- ============================================
+     NAVIGATION
+     ============================================ -->
+<nav class="nav">
+  <div class="nav__logo" id="logoHome" style="cursor:pointer">
+    <svg class="nav__logo-svg" width="56" height="42" viewBox="0 0 100 80" fill="none" xmlns="http://www.w3.org/2000/svg" overflow="visible">
+      <path class="trace" d="M0 30 L 25 30 L 35 15 L 50 15" stroke="#00E5FF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle class="node-dot node-dot--1" cx="50" cy="15" r="4" stroke="#00E5FF" stroke-width="3" fill="#000006"/>
+      <path class="trace trace--2" d="M0 40 L 30 40 L 40 28 L 55 28" stroke="#D500F9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle class="node-dot node-dot--2" cx="55" cy="28" r="4" stroke="#D500F9" stroke-width="3" fill="#000006"/>
+      <path class="trace trace--3" d="M0 50 L 65 50" stroke="#FFC400" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle class="node-dot node-dot--3" cx="65" cy="50" r="4" stroke="#FFC400" stroke-width="3" fill="#000006"/>
+      <path class="trace trace--4" d="M0 60 L 25 60 L 40 75 L 50 75" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle class="node-dot node-dot--4" cx="50" cy="75" r="4" stroke="#FFFFFF" stroke-width="3" fill="#000006"/>
     </svg>
-    <div class="logo-text"><span>Cyberspace</span> Building Corp.</div>
+    <div class="nav__logo-text"><span class="highlight">Cyberspace</span> Building Corp.</div>
   </div>
-  <ul class="nav-links" id="navLinks">
-    <li><a data-block="overview" class="active">Overview</a></li>
-    <li><a data-block="database">Database</a></li>
-    <li><a data-block="appdev">App Dev</a></li>
-    <li><a data-block="cloud">Cloud</a></li>
-    <li><a data-block="data">Data Eng</a></li>
-    <li><a data-block="architecture">Architecture</a></li>
-    <li><a data-block="contact" style="border-left:1px solid rgba(58,158,253,0.15);padding-left:1.5rem">Contact</a></li>
+
+  <ul class="nav__links" id="navLinks">
+    <li><a data-block="overview" class="nav__link nav__link--active">Overview</a></li>
+    <li><a data-block="database" class="nav__link">Database</a></li>
+    <li><a data-block="appdev" class="nav__link">App Dev</a></li>
+    <li><a data-block="cloud" class="nav__link">Cloud</a></li>
+    <li><a data-block="data" class="nav__link">Data Eng</a></li>
+    <li><a data-block="architecture" class="nav__link">Architecture</a></li>
+    <li><a data-block="contact" class="nav__link nav__link--separated">Contact</a></li>
   </ul>
-  <div class="nav-search">
-    <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg>
-    <input type="text" id="searchInput" placeholder="Search capabilities..." autocomplete="off" spellcheck="false"/>
+
+  <div class="nav__search">
+    <svg class="nav__search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/>
+    </svg>
+    <input type="text" class="nav__search-input" id="searchInput" placeholder="Search capabilities..." autocomplete="off" spellcheck="false"/>
     <div class="search-results" id="searchResults"></div>
   </div>
 </nav>
-<canvas id="canvas"></canvas>
-<div class="tooltip" id="tooltip"></div>
-<div class="hint" id="hint">Click a node to explore // drag to rotate</div>
+
+<!-- ============================================
+     3D SCENE (interactive, JS-driven)
+     ============================================ -->
+<canvas class="scene__canvas" id="canvas"></canvas>
+<div class="scene__tooltip" id="tooltip"></div>
+<div class="scene__hint" id="hint">Click a node to explore // drag to rotate</div>
+
 <div class="overlay" id="overlay">
-  <div class="overlay-bg" id="overlayBg"></div>
-  <div class="overlay-card" id="overlayCard"></div>
+  <div class="overlay__backdrop" id="overlayBg"></div>
+  <div class="overlay__card" id="overlayCard"></div>
 </div>
 
-<script type="importmap">
-{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.162.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.162.0/examples/jsm/"}}
-</script>
-<script type="module">
-import * as THREE from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+<!-- SEO content generated from services.json + contact.json by vite-plugin-seo-inject -->
+<!--SEO_INJECT-->
 
-// === SERVICE DATA ===
-const svc = {
-  database:{lbl:'DATABASE',icon:'DB',iconColor:'#33aaff',
-    desc:'Secure and optimized database infrastructure for mission-critical enterprise systems. Two decades of SQL Server administration, performance tuning, and high-availability architecture.',
-    detail:'Environments achieving 99.9% uptime processing millions of transactions daily. Real-time monitoring to automated failover.',
-    tech:['SQL Server 2016-2022','Azure SQL / Managed Instance','Always-On Availability Groups','Performance Tuning','Automated Backup & DR','Database Security & Compliance']},
-  appdev:{lbl:'APP DEV',icon:'</>',iconColor:'#33ffdd',
-    desc:'Full-stack software engineering with modern frameworks. .NET enterprise applications, Python data services, React frontends, REST APIs.',
-    detail:'Building the connective tissue between data platforms and end users \u2014 APIs, web apps, automation tools, and AI-assisted workflows.',
-    tech:['.NET / C# / ASP.NET Core','Python','React / TypeScript','REST API Design','AI/ML Integration','Microservices Architecture']},
-  cloud:{lbl:'CLOUD',icon:'\u2601',iconColor:'#aa66ff',
-    desc:'Resilient cloud architecture on Microsoft Azure. Infrastructure-as-code, CI/CD automation, Kubernetes orchestration, hybrid cloud.',
-    detail:'Certified Azure Database Administrator. Cost optimization, enterprise security, and container orchestration at scale.',
-    tech:['Microsoft Azure','Docker & Kubernetes','Azure DevOps CI/CD','Infrastructure as Code','Azure DB Admin Certified','Hybrid Cloud Architecture']},
-  data:{lbl:'DATA ENG',icon:'\u25b7\u25b7',iconColor:'#ffaa33',
-    desc:'High-performance data pipelines and analytics platforms. Microsoft Fabric, Databricks, Power BI, real-time streaming.',
-    detail:'End-to-end data architectures \u2014 lakehouses, streaming, semantic models, and self-service analytics for decision makers.',
-    tech:['Microsoft Fabric / Lakehouse','Databricks','Power BI / Semantic Models','ETL / ELT Pipelines','Real-time Streaming (KQL)','Data Governance & Quality']},
-  architecture:{lbl:'ARCHITECTURE',icon:'\u2b21',iconColor:'#dd88ff',
-    desc:'The intelligence layer. Connecting all platforms into coherent, future-proof systems through integration patterns, API strategy, and governance.',
-    detail:'Not a platform \u2014 a practice. Enterprise architecture, security frameworks, technical roadmapping, and stakeholder communication.',
-    tech:['Enterprise Architecture','API Strategy & Design','Security & Compliance','Integration Patterns','Technical Roadmapping','Stakeholder Communication']}
-};
+<script type="module" src="/src/main.ts"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TRR74914ZQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-// Consistent graph layout
-const nodeDefs = [
-  {key:'database',     pos:[0, -3, 0],      r:1.5},
-  {key:'appdev',       pos:[-5.5, 0.5, 2],  r:1.3},
-  {key:'cloud',        pos:[5.5, 0.5, -2],  r:1.3},
-  {key:'data',         pos:[3, 5, 2.5],     r:1.2},
-  {key:'architecture', pos:[-2.5, 5.5, -2], r:1.4},
-];
-const graphEdges = [[0,1],[0,2],[0,3],[0,4],[1,2],[1,3],[1,4],[2,3],[2,4],[3,4]];
-
-// Consistent purple palette for the mesh
-const MESH_COLOR = 0x8855cc;
-const MESH_BRIGHT = 0xaa77ee;
-const MESH_DIM = 0x4422aa;
-const EDGE_COLOR = 0x221144;
-
-// === THREE.JS ===
-const canvas = document.getElementById('canvas');
-const R = new THREE.WebGLRenderer({canvas,antialias:true});
-R.setPixelRatio(Math.min(window.devicePixelRatio,2));
-R.setSize(window.innerWidth,window.innerHeight);
-R.setClearColor(0x000006);
-const scene = new THREE.Scene();
-scene.fog = new THREE.Fog(0x000006,28,55);
-const cam = new THREE.PerspectiveCamera(50,window.innerWidth/window.innerHeight,0.1,200);
-cam.position.set(12,7,14);
-const ctrl = new OrbitControls(cam,canvas);
-ctrl.enableDamping=true;ctrl.dampingFactor=0.04;ctrl.enablePan=false;
-ctrl.target.set(0,1.5,0);ctrl.autoRotate=true;ctrl.autoRotateSpeed=0.2;
-ctrl.maxPolarAngle=Math.PI*0.5;ctrl.minPolarAngle=Math.PI*0.1;
-ctrl.minDistance=8;ctrl.maxDistance=28;
-
-function lM(c,o){return new THREE.LineBasicMaterial({color:c,transparent:true,opacity:o})}
-function fM(c,o){return new THREE.MeshBasicMaterial({color:c,transparent:true,opacity:o,side:THREE.DoubleSide})}
-function pM(c,s,o){return new THREE.PointsMaterial({color:c,size:s,transparent:true,opacity:o,blending:THREE.AdditiveBlending})}
-
-// Canvas-drawn iconic symbols
-function makeIcon(key, color, size=512){
-  const cv=document.createElement('canvas');cv.width=size;cv.height=size;
-  const ctx=cv.getContext('2d');
-  const cx=size/2, cy=size/2, u=size/10; // center and unit
-  ctx.strokeStyle=color;ctx.fillStyle=color;
-  ctx.shadowColor=color;ctx.shadowBlur=u*1.2;
-  ctx.lineWidth=u*0.25;ctx.lineCap='round';ctx.lineJoin='round';
-
-  switch(key){
-    case 'database': {
-      // Classic DB: 3 stacked ellipses with vertical lines
-      const ew=u*3, eh=u*0.9;
-      for(let i=0;i<3;i++){
-        const oy=cy-u*2+i*u*2;
-        ctx.beginPath();ctx.ellipse(cx,oy,ew,eh,0,0,Math.PI*2);ctx.stroke();
-        if(i===0){ctx.beginPath();ctx.ellipse(cx,oy,ew,eh,0,0,Math.PI*2);ctx.globalAlpha=0.1;ctx.fill();ctx.globalAlpha=1;}
-      }
-      // Vertical sides
-      ctx.beginPath();ctx.moveTo(cx-ew,cy-u*2);ctx.lineTo(cx-ew,cy+u*2);ctx.stroke();
-      ctx.beginPath();ctx.moveTo(cx+ew,cy-u*2);ctx.lineTo(cx+ew,cy+u*2);ctx.stroke();
-      break;
-    }
-    case 'appdev': {
-      // Code brackets with lines
-      ctx.lineWidth=u*0.3;
-      // Left bracket {
-      ctx.beginPath();ctx.moveTo(cx-u*1.5,cy-u*2.5);ctx.quadraticCurveTo(cx-u*2.5,cy-u*2.5,cx-u*2.5,cy-u*1.5);
-      ctx.lineTo(cx-u*2.5,cy-u*0.5);ctx.quadraticCurveTo(cx-u*2.5,cy,cx-u*3,cy);
-      ctx.quadraticCurveTo(cx-u*2.5,cy,cx-u*2.5,cy+u*0.5);ctx.lineTo(cx-u*2.5,cy+u*1.5);
-      ctx.quadraticCurveTo(cx-u*2.5,cy+u*2.5,cx-u*1.5,cy+u*2.5);ctx.stroke();
-      // Right bracket }
-      ctx.beginPath();ctx.moveTo(cx+u*1.5,cy-u*2.5);ctx.quadraticCurveTo(cx+u*2.5,cy-u*2.5,cx+u*2.5,cy-u*1.5);
-      ctx.lineTo(cx+u*2.5,cy-u*0.5);ctx.quadraticCurveTo(cx+u*2.5,cy,cx+u*3,cy);
-      ctx.quadraticCurveTo(cx+u*2.5,cy,cx+u*2.5,cy+u*0.5);ctx.lineTo(cx+u*2.5,cy+u*1.5);
-      ctx.quadraticCurveTo(cx+u*2.5,cy+u*2.5,cx+u*1.5,cy+u*2.5);ctx.stroke();
-      // Code lines inside
-      ctx.lineWidth=u*0.15;ctx.globalAlpha=0.5;
-      for(let i=0;i<4;i++){
-        const ly=cy-u*1.2+i*u*0.8;
-        const lw=u*(1+Math.random()*1.5);
-        const lx=cx-lw/2+u*(Math.random()-0.5)*0.5;
-        ctx.beginPath();ctx.moveTo(lx,ly);ctx.lineTo(lx+lw,ly);ctx.stroke();
-      }
-      ctx.globalAlpha=1;
-      break;
-    }
-    case 'cloud': {
-      // Layered cloud — outer cloud with inner cloud overlay (reference style)
-      ctx.lineWidth=u*0.26;
-      
-      // Outer/back cloud (larger, slightly offset up-left)
-      ctx.globalAlpha=0.4;
-      ctx.beginPath();
-      ctx.moveTo(cx-u*2.8, cy+u*1.2);
-      ctx.lineTo(cx+u*2.6, cy+u*1.2);
-      ctx.quadraticCurveTo(cx+u*3.6, cy+u*1.2, cx+u*3.6, cy+u*0.0);
-      ctx.quadraticCurveTo(cx+u*3.6, cy-u*1.2, cx+u*2.2, cy-u*1.5);
-      ctx.quadraticCurveTo(cx+u*1.8, cy-u*3.2, cx-u*0.2, cy-u*2.8);
-      ctx.quadraticCurveTo(cx-u*2.0, cy-u*3.0, cx-u*2.5, cy-u*1.6);
-      ctx.quadraticCurveTo(cx-u*3.8, cy-u*1.4, cx-u*3.8, cy-u*0.1);
-      ctx.quadraticCurveTo(cx-u*3.8, cy+u*1.2, cx-u*2.8, cy+u*1.2);
-      ctx.closePath();ctx.stroke();
-      // Cross-hatch fill for back cloud (reference has dotted/hatched texture)
-      ctx.lineWidth=u*0.06;ctx.globalAlpha=0.12;
-      for(let i=-8;i<9;i++){
-        const hy=cy+i*u*0.35;
-        ctx.beginPath();ctx.moveTo(cx-u*3.2,hy);ctx.lineTo(cx+u*3.2,hy);ctx.stroke();
-      }
-      
-      // Main/front cloud (prominent, white fill effect)
-      ctx.globalAlpha=1;ctx.lineWidth=u*0.28;
-      ctx.beginPath();
-      ctx.moveTo(cx-u*2.2, cy+u*1.5);
-      ctx.lineTo(cx+u*2.0, cy+u*1.5);
-      ctx.quadraticCurveTo(cx+u*3.0, cy+u*1.5, cx+u*3.0, cy+u*0.4);
-      ctx.quadraticCurveTo(cx+u*3.0, cy-u*0.8, cx+u*1.6, cy-u*1.0);
-      ctx.quadraticCurveTo(cx+u*1.2, cy-u*2.4, cx-u*0.3, cy-u*2.0);
-      ctx.quadraticCurveTo(cx-u*1.6, cy-u*2.2, cx-u*2.0, cy-u*0.9);
-      ctx.quadraticCurveTo(cx-u*3.2, cy-u*0.7, cx-u*3.2, cy+u*0.3);
-      ctx.quadraticCurveTo(cx-u*3.2, cy+u*1.5, cx-u*2.2, cy+u*1.5);
-      ctx.closePath();ctx.stroke();
-      
-      // Small inner cloud accent (bottom-left, adds depth)
-      ctx.globalAlpha=0.5;ctx.lineWidth=u*0.16;
-      ctx.beginPath();
-      ctx.moveTo(cx-u*1.2, cy+u*1.0);
-      ctx.quadraticCurveTo(cx-u*1.8, cy+u*1.0, cx-u*1.8, cy+u*0.3);
-      ctx.quadraticCurveTo(cx-u*1.8, cy-u*0.3, cx-u*1.0, cy-u*0.3);
-      ctx.quadraticCurveTo(cx-u*0.5, cy-u*0.9, cx+u*0.4, cy-u*0.5);
-      ctx.quadraticCurveTo(cx+u*1.0, cy-u*0.3, cx+u*1.0, cy+u*0.2);
-      ctx.quadraticCurveTo(cx+u*1.0, cy+u*1.0, cx+u*0.3, cy+u*1.0);
-      ctx.closePath();ctx.stroke();
-      ctx.globalAlpha=1;
-      break;
-    }
-    case 'data': {
-      // Half-gear left + circuit traces right — matching reference exactly
-      const gcx=cx-u*1.2, gcy=cy;
-      // Half gear body (right-facing half)
-      ctx.lineWidth=u*0.28;
-      // Gear teeth on left arc (5 teeth from ~100deg to ~260deg)
-      const gOuter=u*2.3, gInner=u*1.7;
-      ctx.beginPath();
-      // Bottom horizontal edge into first tooth
-      ctx.moveTo(gcx+u*0.3, gcy+gInner);
-      const numTeeth=5;
-      for(let i=0;i<numTeeth;i++){
-        const frac=i/numTeeth;
-        const ang=Math.PI*0.6 + frac*(Math.PI*1.3); // 108deg to 342deg
-        const angNext=Math.PI*0.6 + (i+1)/numTeeth*(Math.PI*1.3);
-        const midA=(ang+angNext)/2;
-        // Tooth out
-        ctx.lineTo(gcx+Math.cos(ang)*gInner, gcy+Math.sin(ang)*gInner);
-        ctx.lineTo(gcx+Math.cos(ang+0.1)*gOuter, gcy+Math.sin(ang+0.1)*gOuter);
-        ctx.lineTo(gcx+Math.cos(midA)*gOuter, gcy+Math.sin(midA)*gOuter);
-        ctx.lineTo(gcx+Math.cos(midA+0.1)*gInner, gcy+Math.sin(midA+0.1)*gInner);
-      }
-      ctx.stroke();
-      // Inner semicircle
-      ctx.beginPath();ctx.arc(gcx,gcy,u*1.05,Math.PI*0.55,Math.PI*1.55);ctx.stroke();
-      // Eye/center of gear
-      ctx.beginPath();ctx.arc(gcx,gcy,u*0.35,0,Math.PI*2);ctx.stroke();
-      ctx.beginPath();ctx.arc(gcx,gcy,u*0.12,0,Math.PI*2);ctx.fill();
-
-      // Circuit traces extending RIGHT from gear
-      ctx.lineWidth=u*0.16;
-      const traceStartX=gcx+u*1.1;
-      const traceData=[
-        {dy:-u*2.0, endX:cx+u*3.8, midX:cx+u*1, nodes:2},
-        {dy:-u*1.0, endX:cx+u*4.2, midX:cx+u*1.5, nodes:3},
-        {dy:0,      endX:cx+u*3.5, midX:cx+u*0.8, nodes:2},
-        {dy:u*1.0,  endX:cx+u*4.0, midX:cx+u*2, nodes:3},
-        {dy:u*2.0,  endX:cx+u*3.2, midX:cx+u*1.2, nodes:2},
-      ];
-      traceData.forEach(tr=>{
-        const sy=gcy+tr.dy;
-        // Horizontal trace
-        ctx.beginPath();ctx.moveTo(traceStartX,sy);ctx.lineTo(tr.endX,sy);ctx.stroke();
-        // End node (circle)
-        ctx.beginPath();ctx.arc(tr.endX,sy,u*0.22,0,Math.PI*2);ctx.fill();
-        // Optional mid nodes
-        if(tr.nodes>=3){
-          ctx.beginPath();ctx.arc(tr.midX,sy,u*0.15,0,Math.PI*2);ctx.fill();
-        }
-        const midMid=(traceStartX+tr.endX)/2;
-        ctx.beginPath();ctx.arc(midMid,sy,u*0.12,0,Math.PI*2);ctx.fill();
-      });
-      break;
-    }
-    case 'architecture': {
-      // Lightbulb with puzzle pieces at top, hierarchy tree with boxes below
-      ctx.lineWidth=u*0.22;
-
-      // === LIGHTBULB (top center, with puzzle-piece divisions) ===
-      const lx=cx, ly=cy-u*1.2;
-      const bR=u*1.3;
-      // Bulb outline — full closed shape with rounded top
-      ctx.beginPath();
-      ctx.moveTo(lx-u*0.45, ly+bR*0.9);
-      ctx.quadraticCurveTo(lx-bR*0.85, ly+bR*0.3, lx-bR, ly-u*0.3);
-      ctx.arc(lx, ly-u*0.3, bR, Math.PI, 0, false);
-      ctx.quadraticCurveTo(lx+bR*0.85, ly+bR*0.3, lx+u*0.45, ly+bR*0.9);
-      ctx.lineTo(lx-u*0.45, ly+bR*0.9);
-      ctx.stroke();
-      // Screw base
-      ctx.lineWidth=u*0.16;
-      ctx.beginPath();ctx.moveTo(lx-u*0.4,ly+bR*1.05);ctx.lineTo(lx+u*0.4,ly+bR*1.05);ctx.stroke();
-      ctx.beginPath();ctx.moveTo(lx-u*0.3,ly+bR*1.2);ctx.lineTo(lx+u*0.3,ly+bR*1.2);ctx.stroke();
-      ctx.beginPath();ctx.moveTo(lx-u*0.15,ly+bR*1.32);ctx.lineTo(lx+u*0.15,ly+bR*1.32);ctx.stroke();
-      // Puzzle piece divisions inside bulb
-      ctx.lineWidth=u*0.12;ctx.globalAlpha=0.6;
-      // Vertical split (full height of bulb)
-      ctx.beginPath();ctx.moveTo(lx,ly-u*0.3-bR*0.85);ctx.lineTo(lx,ly+bR*0.55);ctx.stroke();
-      // Horizontal split with puzzle tab
-      ctx.beginPath();
-      ctx.moveTo(lx-bR*0.6,ly);
-      ctx.lineTo(lx-u*0.25,ly);
-      // Puzzle tab (small bump)
-      ctx.quadraticCurveTo(lx-u*0.25,ly-u*0.2,lx,ly-u*0.2);
-      ctx.quadraticCurveTo(lx+u*0.25,ly-u*0.2,lx+u*0.25,ly);
-      ctx.lineTo(lx+bR*0.6,ly);
-      ctx.stroke();
-      ctx.globalAlpha=1;
-
-      // Rays around bulb
-      ctx.lineWidth=u*0.15;
-      const rays=6;
-      for(let i=0;i<rays;i++){
-        const a=Math.PI*1.2+i*(Math.PI*0.65/(rays-1));
-        const r1=bR+u*0.25, r2=bR+u*0.6;
-        ctx.beginPath();
-        ctx.moveTo(lx+Math.cos(a)*r1,ly-u*0.2+Math.sin(a)*r1);
-        ctx.lineTo(lx+Math.cos(a)*r2,ly-u*0.2+Math.sin(a)*r2);
-        ctx.stroke();
-      }
-
-      // === HIERARCHY TREE below the lightbulb ===
-      ctx.lineWidth=u*0.14;
-      const ty=ly+bR*1.5; // top of tree (just below bulb)
-      // Vertical line from bulb down
-      ctx.beginPath();ctx.moveTo(lx,ly+bR*1.2);ctx.lineTo(lx,ty+u*0.4);ctx.stroke();
-      // Horizontal branch
-      ctx.beginPath();ctx.moveTo(lx-u*2,ty+u*0.4);ctx.lineTo(lx+u*2,ty+u*0.4);ctx.stroke();
-      // Three vertical drops
-      const boxW=u*0.9, boxH=u*0.55;
-      [-u*2, 0, u*2].forEach(bx=>{
-        // Drop line
-        ctx.beginPath();ctx.moveTo(lx+bx,ty+u*0.4);ctx.lineTo(lx+bx,ty+u*0.9);ctx.stroke();
-        // Box
-        ctx.strokeRect(lx+bx-boxW/2,ty+u*0.9,boxW,boxH);
-        // Dots inside box (representing content)
-        ctx.globalAlpha=0.4;
-        ctx.beginPath();ctx.arc(lx+bx-u*0.15,ty+u*1.15,u*0.06,0,Math.PI*2);ctx.fill();
-        ctx.beginPath();ctx.arc(lx+bx+u*0.05,ty+u*1.15,u*0.06,0,Math.PI*2);ctx.fill();
-        ctx.beginPath();ctx.arc(lx+bx+u*0.25,ty+u*1.15,u*0.06,0,Math.PI*2);ctx.fill();
-        ctx.globalAlpha=1;
-      });
-      break;
-    }
-  }
-  const tex=new THREE.CanvasTexture(cv);tex.minFilter=THREE.LinearFilter;return tex;
-}
-
-// === BUILD ===
-const world = new THREE.Group();
-const hitTargets=[];const nodeGroups={};const nodeData={};
-
-nodeDefs.forEach(def=>{
-  const {key,pos,r}=def;
-  const s=svc[key];
-  const g=new THREE.Group();g.position.set(...pos);
-
-  // Outer wireframe — CONSISTENT purple
-  const outer=new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.IcosahedronGeometry(r,2)),lM(MESH_COLOR,0.3));
-  g.add(outer);
-
-  // Inner glow — consistent
-  g.add(new THREE.Mesh(new THREE.SphereGeometry(r*0.9,16,12),fM(MESH_DIM,0.02)));
-
-  // Icon sprite — canvas-drawn symbol in service color
-  const iconTex=makeIcon(key,s.iconColor,512);
-  const iconSpr=new THREE.Sprite(new THREE.SpriteMaterial({map:iconTex,transparent:true,opacity:0.9,depthTest:false}));
-  iconSpr.scale.setScalar(r*1.5);
-  g.add(iconSpr);
-
-  // Center dot
-  const dg=new THREE.BufferGeometry();
-  dg.setAttribute('position',new THREE.Float32BufferAttribute([0,0,0],3));
-  g.add(new THREE.Points(dg,pM(0xffffff,0.07,0.4)));
-
-  // Hitbox
-  const hb=new THREE.Mesh(new THREE.SphereGeometry(r,12,12),new THREE.MeshBasicMaterial({visible:false}));
-  g.add(hb);
-
-  g.userData={serviceKey:key,hitbox:hb,outer};
-  hitTargets.push(hb);nodeGroups[key]=g;
-  nodeData[key]={pos:new THREE.Vector3(...pos),r};
-  world.add(g);
-});
-
-// Edges — consistent color
-const edgeLines=[];
-graphEdges.forEach(([a,b])=>{
-  const s=new THREE.Vector3(...nodeDefs[a].pos),e=new THREE.Vector3(...nodeDefs[b].pos);
-  const m=s.clone().add(e).multiplyScalar(0.5);m.y+=0.4+Math.random()*0.5;
-  const curve=new THREE.QuadraticBezierCurve3(s,m,e);
-  const line=new THREE.Line(new THREE.BufferGeometry().setFromPoints(curve.getPoints(20)),lM(EDGE_COLOR,0.18));
-  world.add(line);edgeLines.push(line);
-});
-
-// === SPARKLE GLOW PARTICLES ===
-// Bright sparkles that drift and twinkle
-const sparkleN=80;
-const sparklePos=new Float32Array(sparkleN*3);
-const sparkleVel=[];
-for(let i=0;i<sparkleN;i++){
-  sparklePos[i*3]=(Math.random()-0.5)*20;
-  sparklePos[i*3+1]=-5+Math.random()*16;
-  sparklePos[i*3+2]=(Math.random()-0.5)*20;
-  sparkleVel.push({x:(Math.random()-0.5)*0.005,y:0.002+Math.random()*0.008,z:(Math.random()-0.5)*0.005});
-}
-const sparkleGeo=new THREE.BufferGeometry();
-sparkleGeo.setAttribute('position',new THREE.Float32BufferAttribute(sparklePos,3));
-const sparklePts=new THREE.Points(sparkleGeo,pM(MESH_BRIGHT,0.045,0.5));
-world.add(sparklePts);
-
-// Dimmer background particles
-const dustN=40;const dustP=new Float32Array(dustN*3);
-for(let i=0;i<dustN;i++){dustP[i*3]=(Math.random()-0.5)*22;dustP[i*3+1]=-4+Math.random()*14;dustP[i*3+2]=(Math.random()-0.5)*22}
-world.add(new THREE.Points(new THREE.BufferGeometry().setAttribute('position',new THREE.Float32BufferAttribute(dustP,3)),pM(0x1a1a44,0.02,0.15)));
-
-scene.add(world);
-
-// === INTERACTION ===
-const ray=new THREE.Raycaster();const mouse=new THREE.Vector2();
-const tooltip=document.getElementById('tooltip');
-const overlay=document.getElementById('overlay');
-const overlayCard=document.getElementById('overlayCard');
-const hint=document.getElementById('hint');
-let hov=null,sel=null,animating=false;
-const defPos=new THREE.Vector3(12,7,14),defTgt=new THREE.Vector3(0,1.5,0);
-
-function animCam(p,t,d=900){
-  if(animating)return;animating=true;ctrl.autoRotate=false;
-  const sp=cam.position.clone(),st=ctrl.target.clone(),t0=performance.now();
-  (function step(now){
-    const r=Math.min((now-t0)/d,1);
-    const e=r<0.5?4*r*r*r:1-Math.pow(-2*r+2,3)/2;
-    cam.position.lerpVectors(sp,p,e);ctrl.target.lerpVectors(st,t,e);ctrl.update();
-    if(r<1)requestAnimationFrame(step);else animating=false;
-  })(performance.now());
-}
-
-function showOverlay(html){
-  overlayCard.innerHTML=`<button class="overlay-close" id="oc">&times;</button>`+html;
-  overlay.classList.add('open');
-  document.getElementById('oc').addEventListener('click',closeOverlay);
-}
-
-function closeOverlay(){
-  sel=null;overlay.classList.remove('open');hint.classList.remove('hidden');
-  Object.values(nodeGroups).forEach(ng=>{
-    ng.userData.outer.material.opacity=0.3;
-    ng.children.forEach(ch=>{
-      if(ch.isSprite)ch.material.opacity=0.9;
-      if(ch.isPoints)ch.material.opacity=0.4;
-      if(ch.isMesh&&ch.material.transparent&&ch.material.opacity<0.1)ch.material.opacity=0.02;
-    });
-  });
-  edgeLines.forEach(l=>{l.material.opacity=0.18});
-  // Zoom out from current angle — keep orbital direction, pull back to overview distance
-  const dir=cam.position.clone().sub(ctrl.target).normalize();
-  const overviewDist=20; // comfortable overview distance
-  const newPos=defTgt.clone().add(dir.multiplyScalar(overviewDist));
-  animCam(newPos,defTgt.clone());
-  setTimeout(()=>{ctrl.autoRotate=true},1000);
-  document.querySelectorAll('#navLinks a').forEach(a=>a.classList.toggle('active',a.dataset.block==='overview'));
-}
-
-function selectNode(key){
-  const g=nodeGroups[key];if(!g||animating)return;
-  sel=key;hint.classList.add('hidden');
-
-  Object.values(nodeGroups).forEach(ng=>{
-    const isSel=ng.userData.serviceKey===key;
-    ng.userData.outer.material.opacity=isSel?0.55:0.06;
-    ng.children.forEach(ch=>{
-      if(ch.isSprite)ch.material.opacity=isSel?1:0.1;
-      if(ch.isPoints)ch.material.opacity=isSel?0.6:0.05;
-      if(ch.isMesh&&ch.material.transparent&&ch.material.opacity<0.1)ch.material.opacity=isSel?0.04:0.002;
-    });
-  });
-  edgeLines.forEach(l=>{l.material.opacity=0.04});
-
-  const nd=nodeData[key];
-  animCam(nd.pos.clone().add(new THREE.Vector3(3,2,4)),nd.pos.clone());
-
-  const s=svc[key];
-  showOverlay(`
-    <div class="badge" style="color:${s.iconColor};border:1px solid ${s.iconColor}33">${s.lbl}</div>
-    <h2>${s.lbl}</h2>
-    <p>${s.desc}</p>
-    <p>${s.detail}</p>
-    <div class="tech-grid">${s.tech.map(t=>`<span><span style="background:${s.iconColor}"></span>${t}</span>`).join('')}</div>
-  `);
-
-  document.querySelectorAll('#navLinks a').forEach(a=>a.classList.toggle('active',a.dataset.block===key));
-}
-
-function showContact(){
-  sel='contact';hint.classList.add('hidden');
-  showOverlay(`
-    <div class="badge" style="color:#5cb8ff;border:1px solid #5cb8ff33">CONTACT //</div>
-    <h2>Get In Touch</h2>
-    <p>Cyberspace Building Corp. delivers enterprise solution architecture, data engineering, and cloud infrastructure consulting. Serving Simcoe County, the Greater Toronto Area, and clients worldwide.</p>
-    <div class="contact-links">
-      <a href="mailto:services@cyberbuild.ca"><span class="ico">@</span>services@cyberbuild.ca</a>
-      <a href="https://cyberbuild.ca"><span class="ico">//</span>cyberbuild.ca</a>
-    </div>
-    <div class="location">Simcoe County &middot; GTA &middot; Worldwide // EST (UTC-5)</div>
-  `);
-  document.querySelectorAll('#navLinks a').forEach(a=>a.classList.toggle('active',a.dataset.block==='contact'));
-}
-
-// Mouse events
-canvas.addEventListener('mousemove',e=>{
-  mouse.x=(e.clientX/window.innerWidth)*2-1;mouse.y=-(e.clientY/window.innerHeight)*2+1;
-  ray.setFromCamera(mouse,cam);const hits=ray.intersectObjects(hitTargets);
-  if(hits.length>0){
-    const key=hits[0].object.parent.userData.serviceKey;
-    if(key&&key!==sel){
-      canvas.style.cursor='pointer';tooltip.textContent=svc[key].lbl;
-      tooltip.style.left=(e.clientX+14)+'px';tooltip.style.top=(e.clientY-10)+'px';
-      tooltip.classList.add('visible');
-      if(hov!==key){
-        if(hov&&nodeGroups[hov]&&hov!==sel)nodeGroups[hov].userData.outer.material.opacity=0.3;
-        nodeGroups[key].userData.outer.material.opacity=0.5;hov=key;
-      }
-    }
-  }else{
-    canvas.style.cursor='grab';tooltip.classList.remove('visible');
-    if(hov&&nodeGroups[hov]&&hov!==sel)nodeGroups[hov].userData.outer.material.opacity=0.3;
-    hov=null;
-  }
-});
-
-canvas.addEventListener('click',()=>{
-  ray.setFromCamera(mouse,cam);const hits=ray.intersectObjects(hitTargets);
-  if(hits.length>0){const k=hits[0].object.parent.userData.serviceKey;if(k)selectNode(k)}
-});
-
-document.getElementById('overlayBg').addEventListener('click',closeOverlay);
-document.getElementById('logoHome').addEventListener('click',closeOverlay);
-document.querySelectorAll('#navLinks a').forEach(a=>a.addEventListener('click',()=>{
-  const k=a.dataset.block;
-  if(k==='overview')closeOverlay();
-  else if(k==='contact')showContact();
-  else if(svc[k])selectNode(k);
-}));
-document.addEventListener('keydown',e=>{
-  if(e.key==='Escape')closeOverlay();
-  // Press 'D' to log camera position for fine-tuning default view
-  if(e.key==='d'&&!e.ctrlKey&&!e.metaKey&&document.activeElement.tagName!=='INPUT')
-    console.log(`cam.position.set(${cam.position.x.toFixed(1)},${cam.position.y.toFixed(1)},${cam.position.z.toFixed(1)});\nctrl.target.set(${ctrl.target.x.toFixed(1)},${ctrl.target.y.toFixed(1)},${ctrl.target.z.toFixed(1)});`);
-});
-
-// === ANIMATE ===
-const clock=new THREE.Clock();
-(function animate(){
-  requestAnimationFrame(animate);
-  const t=clock.getElapsedTime();
-
-  // Sphere breathing
-  Object.values(nodeGroups).forEach((ng,i)=>{
-    const s=1+Math.sin(t*0.6+i*1.1)*0.015;
-    ng.userData.outer.scale.setScalar(s);
-  });
-
-  // Sparkle drift + twinkle
-  const sp=sparkleGeo.attributes.position.array;
-  for(let i=0;i<sparkleN;i++){
-    sp[i*3]+=sparkleVel[i].x;
-    sp[i*3+1]+=sparkleVel[i].y;
-    sp[i*3+2]+=sparkleVel[i].z;
-    // Reset when they drift too far
-    if(sp[i*3+1]>12){sp[i*3+1]=-5;sp[i*3]=(Math.random()-0.5)*20;sp[i*3+2]=(Math.random()-0.5)*20;}
-    if(Math.abs(sp[i*3])>12)sparkleVel[i].x*=-1;
-    if(Math.abs(sp[i*3+2])>12)sparkleVel[i].z*=-1;
-  }
-  sparkleGeo.attributes.position.needsUpdate=true;
-  // Twinkle opacity
-  sparklePts.material.opacity=0.35+Math.sin(t*2)*0.15;
-  sparklePts.material.size=0.04+Math.sin(t*3)*0.015;
-
-  ctrl.update();R.render(scene,cam);
-})();
-
-window.addEventListener('resize',()=>{
-  R.setSize(window.innerWidth,window.innerHeight);
-  cam.aspect=window.innerWidth/window.innerHeight;cam.updateProjectionMatrix();
-});
-
-// === SEARCH ===
-const searchInput=document.getElementById('searchInput');
-const searchResults=document.getElementById('searchResults');
-
-// Build search index from all service data
-const searchIndex=[];
-Object.entries(svc).forEach(([key,s])=>{
-  // Index the description and detail text
-  searchIndex.push({key,type:'desc',text:s.desc,cat:s.lbl,color:s.iconColor});
-  searchIndex.push({key,type:'detail',text:s.detail,cat:s.lbl,color:s.iconColor});
-  // Index each tech item
-  s.tech.forEach(t=>{
-    searchIndex.push({key,type:'tech',text:t,cat:s.lbl,color:s.iconColor});
-  });
-});
-
-function highlightMatch(text,query){
-  const idx=text.toLowerCase().indexOf(query.toLowerCase());
-  if(idx===-1)return text;
-  return text.slice(0,idx)+'<mark>'+text.slice(idx,idx+query.length)+'</mark>'+text.slice(idx+query.length);
-}
-
-function doSearch(query){
-  if(!query||query.length<2){searchResults.classList.remove('open');return;}
-  const q=query.toLowerCase();
-  const matches=searchIndex.filter(item=>item.text.toLowerCase().includes(q));
-  
-  if(matches.length===0){
-    searchResults.innerHTML='<div class="sr-empty">No matches for &ldquo;'+query+'&rdquo;</div>';
-    searchResults.classList.add('open');
-    return;
-  }
-  
-  // Group by service
-  const grouped={};
-  matches.forEach(m=>{
-    if(!grouped[m.key])grouped[m.key]=[];
-    grouped[m.key].push(m);
-  });
-  
-  let html='';
-  Object.entries(grouped).forEach(([key,items])=>{
-    const first=items[0];
-    html+='<div class="sr-group">'+first.cat+'</div>';
-    // Deduplicate — show tech matches first, then desc snippets
-    const techs=items.filter(i=>i.type==='tech');
-    const descs=items.filter(i=>i.type!=='tech');
-    techs.forEach(m=>{
-      html+='<div class="sr-item" data-key="'+key+'"><span class="sr-dot" style="background:'+m.color+'"></span><span class="sr-text">'+highlightMatch(m.text,query)+'</span><span class="sr-cat">capability</span></div>';
-    });
-    // Show max 1 desc match per service (truncated)
-    if(descs.length>0){
-      const d=descs[0];
-      let snippet=d.text;
-      const pos=snippet.toLowerCase().indexOf(q);
-      if(pos>40)snippet='…'+snippet.slice(pos-30);
-      if(snippet.length>100)snippet=snippet.slice(0,100)+'…';
-      html+='<div class="sr-item" data-key="'+key+'"><span class="sr-dot" style="background:'+d.color+'"></span><span class="sr-text">'+highlightMatch(snippet,query)+'</span><span class="sr-cat">description</span></div>';
-    }
-  });
-  
-  searchResults.innerHTML=html;
-  searchResults.classList.add('open');
-  
-  // Click handler for results
-  searchResults.querySelectorAll('.sr-item').forEach(item=>{
-    item.addEventListener('click',()=>{
-      const key=item.dataset.key;
-      searchResults.classList.remove('open');
-      searchInput.value='';
-      selectNode(key);
-    });
-  });
-}
-
-searchInput.addEventListener('input',()=>doSearch(searchInput.value));
-searchInput.addEventListener('focus',()=>{if(searchInput.value.length>=2)doSearch(searchInput.value)});
-
-// Close search on click outside
-document.addEventListener('click',e=>{
-  if(!e.target.closest('.nav-search'))searchResults.classList.remove('open');
-});
-
-// Escape closes search too
-document.addEventListener('keydown',e=>{
-  if(e.key==='Escape'&&searchResults.classList.contains('open')){
-    searchResults.classList.remove('open');searchInput.blur();
-  }
-});
-
-// Keyboard navigation in results
-searchInput.addEventListener('keydown',e=>{
-  const items=searchResults.querySelectorAll('.sr-item');
-  if(!items.length)return;
-  const active=searchResults.querySelector('.sr-item.active');
-  let idx=Array.from(items).indexOf(active);
-  if(e.key==='ArrowDown'){e.preventDefault();if(active)active.classList.remove('active');idx=Math.min(idx+1,items.length-1);items[idx].classList.add('active');items[idx].scrollIntoView({block:'nearest'})}
-  else if(e.key==='ArrowUp'){e.preventDefault();if(active)active.classList.remove('active');idx=Math.max(idx-1,0);items[idx].classList.add('active');items[idx].scrollIntoView({block:'nearest'})}
-  else if(e.key==='Enter'&&active){active.click()}
-});
+  gtag('config', 'G-TRR74914ZQ');
 </script>
 </body>
 </html>

@@ -1,0 +1,29 @@
+{
+  "nodes": [
+    { "key": "database",     "position": [0, -3, 0],      "radius": 1.5 },
+    { "key": "appdev",       "position": [-5.5, 0.5, 2],  "radius": 1.3 },
+    { "key": "cloud",        "position": [5.5, 0.5, -2],  "radius": 1.3 },
+    { "key": "data",         "position": [3, 5, 2.5],     "radius": 1.2 },
+    { "key": "architecture", "position": [-2.5, 5.5, -2], "radius": 1.4 }
+  ],
+  "edges": [[0,1],[0,2],[0,3],[0,4],[1,2],[1,3],[1,4],[2,3],[2,4],[3,4]],
+  "camera": {
+    "defaultPosition": [12, 7, 14],
+    "defaultTarget": [0, 1.5, 0],
+    "fov": 50,
+    "overviewDistance": 20,
+    "autoRotateSpeed": 0.2,
+    "minDistance": 8,
+    "maxDistance": 28
+  },
+  "colors": {
+    "meshBase": "#8855cc",
+    "meshBright": "#aa77ee",
+    "meshDim": "#4422aa",
+    "edge": "#221144"
+  },
+  "particles": {
+    "sparkleCount": 80,
+    "dustCount": 40
+  }
+}

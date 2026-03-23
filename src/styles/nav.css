@@ -1,0 +1,169 @@
+/* ============================================
+   CYBERBUILD.CA — Navigation
+   ============================================ */
+
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 0.85rem var(--space-xl);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--bg-nav);
+  backdrop-filter: blur(var(--blur-nav));
+  border-bottom: 1px solid var(--border-faint);
+}
+
+/* --- Logo --- */
+.nav__logo {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  cursor: pointer;
+}
+
+.nav__logo-svg {
+  flex-shrink: 0;
+}
+
+.nav__logo-text {
+  font-family: 'Rajdhani';
+  font-weight: 600;
+  font-size: var(--font-logo);
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.nav__logo-text .highlight {
+  color: var(--brand-blue);
+  font-weight: 600;
+  animation: textPulse 1.2s ease-in-out 2.4s forwards;
+}
+
+/* --- Logo trace animation --- */
+.trace {
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  animation: traceDraw 1.5s ease-in-out forwards;
+}
+.trace--2 { animation-delay: 0.2s; }
+.trace--3 { animation-delay: 0.4s; }
+.trace--4 { animation-delay: 0.6s; }
+
+@keyframes traceDraw {
+  to { stroke-dashoffset: 0; }
+}
+
+.node-dot {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: nodePop 0.3s ease-out forwards;
+}
+.node-dot--1 { animation-delay: 1.5s; }
+.node-dot--2 { animation-delay: 1.7s; }
+.node-dot--3 { animation-delay: 1.9s; }
+.node-dot--4 { animation-delay: 2.1s; }
+
+@keyframes nodePop {
+  0%   { opacity: 0; transform: scale(0); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes textPulse {
+  0%   { color: var(--brand-blue); text-shadow: none; }
+  40%  { color: var(--brand-blue-bright); text-shadow: 0 0 12px rgba(90,180,255,0.6), 0 0 30px rgba(58,158,253,0.3); }
+  100% { color: var(--brand-blue-light); text-shadow: 0 0 4px rgba(90,180,255,0.15); }
+}
+
+/* --- Nav links --- */
+.nav__links {
+  display: flex;
+  gap: var(--space-lg);
+  list-style: none;
+}
+
+.nav__link {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: var(--font-nav);
+  color: var(--text-nav);
+  text-decoration: none;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 0.2rem 0;
+  position: relative;
+  transition: color var(--transition-base);
+}
+
+.nav__link:hover,
+.nav__link--active {
+  color: var(--brand-blue-light);
+}
+
+.nav__link--active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--brand-blue);
+}
+
+.nav__link--separated {
+  border-left: 1px solid var(--border-subtle);
+  padding-left: var(--space-lg);
+}
+
+/* --- Search --- */
+.nav__search {
+  position: relative;
+  margin-left: var(--space-md);
+}
+
+.nav__search-input {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: var(--font-small);
+  color: var(--text-body);
+  background: rgba(10, 12, 28, 0.7);
+  border: 1px solid var(--border-subtle);
+  padding: 0.35rem 0.6rem 0.35rem 1.8rem;
+  width: 12rem;
+  outline: none;
+  letter-spacing: 0.5px;
+  transition: border-color var(--transition-base), width var(--transition-base);
+}
+
+.nav__search-input::placeholder {
+  color: var(--text-dim);
+}
+
+.nav__search-input:focus {
+  border-color: rgba(58, 158, 253, 0.4);
+  width: 16rem;
+}
+
+.nav__search-icon {
+  position: absolute;
+  left: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-dim);
+  pointer-events: none;
+  transition: color var(--transition-base);
+}
+
+.nav__search:focus-within .nav__search-icon {
+  color: var(--brand-blue-light);
+}
+
+/* --- Mobile --- */
+@media (max-width: 640px) {
+  .nav__links { gap: 0.7rem; }
+  .nav__link { font-size: 0.65rem; letter-spacing: 1px; }
+}
