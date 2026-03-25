@@ -2,7 +2,7 @@
    CYBERBUILD.CA — Base / Reset
    ============================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap');
 
 * {
   margin: 0;
@@ -10,16 +10,17 @@
   box-sizing: border-box;
 }
 
-/* Dynamic root font — scales with viewport, 16px at 1920px */
 html {
-  font-size: clamp(14px, 0.833vw + 0.25rem, 20px);
+  font-size: clamp(14px, 0.833vw + 0.25rem, 18px);
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--bg-void);
-  color: var(--text-nav);
+  background: var(--bg);
+  color: var(--text-body);
   font-family: 'Rajdhani', sans-serif;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -34,7 +35,7 @@ button {
   cursor: pointer;
 }
 
-/* SEO content — visible to crawlers, behind the canvas visually */
+/* SEO content — visible to crawlers, hidden visually */
 .seo-content {
   position: absolute;
   left: -9999px;
@@ -44,4 +45,46 @@ button {
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
+}
+
+/* Scroll-reveal base state */
+.fade-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Section shared layout */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-2xl);
+}
+
+.section-index {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: var(--font-label);
+  color: var(--cyan);
+  letter-spacing: 3px;
+  flex-shrink: 0;
+}
+
+.section-rule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, var(--border-subtle), transparent);
+}
+
+.section-title {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: var(--font-label);
+  color: var(--text-dim);
+  letter-spacing: 3px;
+  flex-shrink: 0;
 }

@@ -24,13 +24,13 @@
   <div class="nav__logo" id="logoHome" style="cursor:pointer">
     <svg class="nav__logo-svg" width="56" height="42" viewBox="0 0 100 80" fill="none" xmlns="http://www.w3.org/2000/svg" overflow="visible">
       <path class="trace" d="M0 30 L 25 30 L 35 15 L 50 15" stroke="#00E5FF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle class="node-dot node-dot--1" cx="50" cy="15" r="4" stroke="#00E5FF" stroke-width="3" fill="#000006"/>
+      <circle class="node-dot node-dot--1" cx="50" cy="15" r="4" stroke="#00E5FF" stroke-width="3" fill="#050a14"/>
       <path class="trace trace--2" d="M0 40 L 30 40 L 40 28 L 55 28" stroke="#D500F9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle class="node-dot node-dot--2" cx="55" cy="28" r="4" stroke="#D500F9" stroke-width="3" fill="#000006"/>
+      <circle class="node-dot node-dot--2" cx="55" cy="28" r="4" stroke="#D500F9" stroke-width="3" fill="#050a14"/>
       <path class="trace trace--3" d="M0 50 L 65 50" stroke="#FFC400" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle class="node-dot node-dot--3" cx="65" cy="50" r="4" stroke="#FFC400" stroke-width="3" fill="#000006"/>
+      <circle class="node-dot node-dot--3" cx="65" cy="50" r="4" stroke="#FFC400" stroke-width="3" fill="#050a14"/>
       <path class="trace trace--4" d="M0 60 L 25 60 L 40 75 L 50 75" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle class="node-dot node-dot--4" cx="50" cy="75" r="4" stroke="#FFFFFF" stroke-width="3" fill="#000006"/>
+      <circle class="node-dot node-dot--4" cx="50" cy="75" r="4" stroke="#FFFFFF" stroke-width="3" fill="#050a14"/>
     </svg>
     <div class="nav__logo-text"><span class="highlight">Cyberspace</span> Building Corp.</div>
   </div>
@@ -42,13 +42,13 @@
   </button>
 
   <ul class="nav__links" id="navLinks">
-    <li><a data-block="overview" class="nav__link nav__link--active">Overview</a></li>
-    <li><a data-block="database" class="nav__link">Database</a></li>
-    <li><a data-block="appdev" class="nav__link">App Dev</a></li>
-    <li><a data-block="cloud" class="nav__link">Cloud</a></li>
-    <li><a data-block="data" class="nav__link">Data Eng</a></li>
-    <li><a data-block="architecture" class="nav__link">Architecture</a></li>
-    <li><a data-block="contact" class="nav__link nav__link--separated">Contact</a></li>
+    <li><a data-block="overview"      class="nav__link nav__link--active">Overview</a></li>
+    <li><a data-block="database"      class="nav__link">Database</a></li>
+    <li><a data-block="appdev"        class="nav__link">App Dev</a></li>
+    <li><a data-block="cloud"         class="nav__link">Cloud</a></li>
+    <li><a data-block="data"          class="nav__link">Data Eng</a></li>
+    <li><a data-block="architecture"  class="nav__link">Architecture</a></li>
+    <li><a data-block="contact"       class="nav__link nav__link--separated">Contact</a></li>
   </ul>
 
   <div class="nav__search">
@@ -61,15 +61,211 @@
 </nav>
 
 <!-- ============================================
-     3D SCENE (interactive, JS-driven)
+     STAR FIELD (fixed background canvas)
      ============================================ -->
 <canvas class="scene__canvas" id="canvas"></canvas>
-<div class="scene__tooltip" id="tooltip"></div>
-<div class="scene__hint" id="hint"></div>
 
-<div class="overlay" id="overlay">
-  <div class="overlay__backdrop" id="overlayBg"></div>
-  <div class="overlay__card" id="overlayCard"></div>
+<!-- ============================================
+     SCROLLABLE PAGE CONTENT
+     ============================================ -->
+<div class="page" id="page">
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero__qualifier">
+      Enterprise solution architecture,<br>
+      data engineering, and cloud infrastructure<br>
+      for organizations where the stack is strategic.
+    </div>
+
+    <div class="hero__headline" aria-label="Data. Cloud. Architecture.">
+      <span class="hero__headline-line">Data.</span>
+      <span class="hero__headline-line">Cloud.</span>
+      <span class="hero__headline-line">Architecture.</span>
+    </div>
+
+    <div class="hero__meta">
+      <span class="hero__meta-item">Simcoe County</span>
+      <span class="hero__meta-sep">&middot;</span>
+      <span class="hero__meta-item">GTA</span>
+      <span class="hero__meta-sep">&middot;</span>
+      <span class="hero__meta-item">Worldwide</span>
+    </div>
+
+    <div class="hero__scroll-cue" aria-hidden="true">
+      <span class="hero__scroll-text">SCROLL</span>
+      <span class="hero__scroll-line"></span>
+    </div>
+  </section>
+
+  <!-- CAPABILITIES (horizontal scroll) -->
+  <section class="services" id="capabilities">
+    <div class="section-header fade-up">
+      <span class="section-index">01</span>
+      <span class="section-rule"></span>
+      <span class="section-title">CAPABILITIES</span>
+    </div>
+
+    <div class="services__track" id="servicesTrack">
+
+      <!-- Database -->
+      <article class="service-card" id="service-database">
+        <div class="service-card__accent" style="background:#33aaff"></div>
+        <div class="service-card__label" style="color:#33aaff">DATABASE</div>
+        <h2 class="service-card__title">Database Infrastructure</h2>
+        <p class="service-card__desc">Enterprise database infrastructure designed for reliability, security, and scale. SQL Server architecture, performance engineering, and high-availability design for organizations where data availability is non-negotiable.</p>
+        <p class="service-card__detail">Always-On Availability Groups, automated failover, real-time monitoring, and security hardening — delivered across large enterprise and public-sector environments. One program achieved 99.9% uptime and an 81% reduction in application vulnerabilities.</p>
+        <div class="service-card__tech">
+          <span class="service-card__tech-item" style="--dot:#33aaff">SQL Server 2005–present</span>
+          <span class="service-card__tech-item" style="--dot:#33aaff">Azure SQL / Managed Instance</span>
+          <span class="service-card__tech-item" style="--dot:#33aaff">Always-On Availability Groups</span>
+          <span class="service-card__tech-item" style="--dot:#33aaff">Performance Tuning</span>
+          <span class="service-card__tech-item" style="--dot:#33aaff">Automated Backup &amp; DR</span>
+          <span class="service-card__tech-item" style="--dot:#33aaff">Database Security &amp; Compliance</span>
+        </div>
+      </article>
+
+      <!-- App Dev -->
+      <article class="service-card" id="service-appdev">
+        <div class="service-card__accent" style="background:#33ffdd"></div>
+        <div class="service-card__label" style="color:#33ffdd">APP DEV</div>
+        <h2 class="service-card__title">Application Development</h2>
+        <p class="service-card__desc">Full-stack enterprise application development with a backend and middle-tier focus. .NET services, Python tooling, React frontends, and REST API design that integrates cleanly with your data platforms and infrastructure.</p>
+        <p class="service-card__detail">Applications built to connect data platforms to the people and systems that depend on them — APIs, automation tooling, and web applications delivered across complex enterprise environments. Recent work includes AI-assisted data migrations and AI-integrated development workflows.</p>
+        <div class="service-card__tech">
+          <span class="service-card__tech-item" style="--dot:#33ffdd">.NET / C# / ASP.NET Core</span>
+          <span class="service-card__tech-item" style="--dot:#33ffdd">Python</span>
+          <span class="service-card__tech-item" style="--dot:#33ffdd">React / TypeScript</span>
+          <span class="service-card__tech-item" style="--dot:#33ffdd">REST API Design</span>
+          <span class="service-card__tech-item" style="--dot:#33ffdd">AI/ML Integration</span>
+          <span class="service-card__tech-item" style="--dot:#33ffdd">Microservices Architecture</span>
+        </div>
+      </article>
+
+      <!-- Cloud -->
+      <article class="service-card" id="service-cloud">
+        <div class="service-card__accent" style="background:#aa66ff"></div>
+        <div class="service-card__label" style="color:#aa66ff">CLOUD</div>
+        <h2 class="service-card__title">Cloud Infrastructure</h2>
+        <p class="service-card__desc">Azure infrastructure design and delivery for organizations modernizing beyond on-premises or managing hybrid environments. Database services, CI/CD pipelines, containerized workloads, and infrastructure-as-code.</p>
+        <p class="service-card__detail">Certified Azure Database Administrator with hands-on delivery across Azure DevOps, Docker, Kubernetes, and Bicep/ARM. Experienced in hybrid environments where cloud and on-premises systems need to operate as a coherent, well-governed whole.</p>
+        <div class="service-card__tech">
+          <span class="service-card__tech-item" style="--dot:#aa66ff">Microsoft Azure</span>
+          <span class="service-card__tech-item" style="--dot:#aa66ff">Docker &amp; Kubernetes</span>
+          <span class="service-card__tech-item" style="--dot:#aa66ff">Azure DevOps CI/CD</span>
+          <span class="service-card__tech-item" style="--dot:#aa66ff">Azure Functions</span>
+          <span class="service-card__tech-item" style="--dot:#aa66ff">Infrastructure as Code</span>
+          <span class="service-card__tech-item" style="--dot:#aa66ff">Hybrid Cloud Architecture</span>
+        </div>
+      </article>
+
+      <!-- Data Platform -->
+      <article class="service-card" id="service-data">
+        <div class="service-card__accent" style="background:#ffaa33"></div>
+        <div class="service-card__label" style="color:#ffaa33">DATA PLATFORM</div>
+        <h2 class="service-card__title">Data Engineering</h2>
+        <p class="service-card__desc">Modern data platforms built on Microsoft Fabric, Databricks, and Power BI — from Lakehouse architecture and pipeline design through to semantic models, real-time analytics, and operational dashboards.</p>
+        <p class="service-card__detail">Medallion Architecture implementation, real-time infrastructure monitoring with Fabric Eventhouse and KQL, and SSRS-to-Power BI migration including semantic model development and Git-integrated deployment pipelines.</p>
+        <div class="service-card__tech">
+          <span class="service-card__tech-item" style="--dot:#ffaa33">Microsoft Fabric / Lakehouse</span>
+          <span class="service-card__tech-item" style="--dot:#ffaa33">Azure Synapse / Databricks</span>
+          <span class="service-card__tech-item" style="--dot:#ffaa33">Power BI / Semantic Models</span>
+          <span class="service-card__tech-item" style="--dot:#ffaa33">SSIS / ELT Pipelines</span>
+          <span class="service-card__tech-item" style="--dot:#ffaa33">Real-time Streaming (KQL)</span>
+          <span class="service-card__tech-item" style="--dot:#ffaa33">Data Governance &amp; Quality</span>
+        </div>
+      </article>
+
+      <!-- Architecture -->
+      <article class="service-card" id="service-architecture">
+        <div class="service-card__accent" style="background:#dd88ff"></div>
+        <div class="service-card__label" style="color:#dd88ff">ARCHITECTURE</div>
+        <h2 class="service-card__title">Solution Architecture</h2>
+        <p class="service-card__desc">System-level thinking that connects platforms, teams, and investments into a coherent whole. Integration design, API strategy, security governance, and technical roadmapping for organizations managing complex or evolving technology portfolios.</p>
+        <p class="service-card__detail">Application modernization, vendor governance, and cross-platform integration design delivered across large enterprise and public-sector environments. One engagement repositioned an Ontario public institution into the top 2% provincially for security posture.</p>
+        <div class="service-card__tech">
+          <span class="service-card__tech-item" style="--dot:#dd88ff">Enterprise Architecture</span>
+          <span class="service-card__tech-item" style="--dot:#dd88ff">API Strategy &amp; Design</span>
+          <span class="service-card__tech-item" style="--dot:#dd88ff">Security &amp; Compliance</span>
+          <span class="service-card__tech-item" style="--dot:#dd88ff">Integration Patterns</span>
+          <span class="service-card__tech-item" style="--dot:#dd88ff">Technical Roadmapping</span>
+          <span class="service-card__tech-item" style="--dot:#dd88ff">Stakeholder Communication</span>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- Horizontal scroll progress bar -->
+    <div class="services__progress-bar">
+      <div class="services__progress-fill" id="servicesProgress"></div>
+    </div>
+  </section>
+
+  <!-- TRACK RECORD -->
+  <section class="impact" id="trackrecord">
+    <div class="section-header fade-up">
+      <span class="section-index">02</span>
+      <span class="section-rule"></span>
+      <span class="section-title">TRACK RECORD</span>
+    </div>
+
+    <div class="impact__grid">
+      <div class="stat-card fade-up">
+        <span class="stat-card__value" style="color:#33aaff">17</span>
+        <span class="stat-card__unit">Years</span>
+        <span class="stat-card__label">Enterprise delivery experience</span>
+      </div>
+      <div class="stat-card fade-up">
+        <span class="stat-card__value" style="color:#ff3aaa">81%</span>
+        <span class="stat-card__unit">Reduction</span>
+        <span class="stat-card__label">Application vulnerability reduction</span>
+      </div>
+      <div class="stat-card fade-up">
+        <span class="stat-card__value" style="color:#ffaa33">99.9%</span>
+        <span class="stat-card__unit">Uptime</span>
+        <span class="stat-card__label">SQL Server high availability achieved</span>
+      </div>
+      <div class="stat-card fade-up">
+        <span class="stat-card__value" style="color:#dd88ff">Top 2%</span>
+        <span class="stat-card__unit">Provincial</span>
+        <span class="stat-card__label">Ontario public sector security posture</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact-section" id="contact">
+    <div class="section-header fade-up">
+      <span class="section-index">03</span>
+      <span class="section-rule"></span>
+      <span class="section-title">CONTACT</span>
+    </div>
+
+    <div class="contact-section__body fade-up">
+      <h2 class="contact-section__cta">Let's build something great.</h2>
+      <div class="contact-section__links">
+        <a class="contact-section__link" href="mailto:services@cyberbuild.ca">
+          <span class="contact-section__link-icon">@</span>
+          services@cyberbuild.ca
+        </a>
+        <a class="contact-section__link" href="https://gregpeterson.cyberbuild.ca" target="_blank" rel="noopener">
+          <span class="contact-section__link-icon">&#8599;</span>
+          Portfolio
+        </a>
+      </div>
+      <div class="contact-section__location">
+        Simcoe County &middot; Greater Toronto Area &middot; Worldwide // EST (UTC&#8722;5)
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <span class="footer__copy">Cyberspace Building Corp. &copy; 2025</span>
+    <span class="footer__sep">//</span>
+    <span class="footer__locale">Ontario, Canada</span>
+  </footer>
+
 </div>
 
 <!-- SEO content generated from services.json + contact.json by vite-plugin-seo-inject -->
@@ -82,7 +278,6 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-TRR74914ZQ');
 </script>
 </body>

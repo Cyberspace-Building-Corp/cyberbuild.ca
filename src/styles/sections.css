@@ -1,0 +1,212 @@
+/* ============================================
+   CYBERBUILD.CA — Impact & Contact Sections
+   ============================================ */
+
+/* Shared section wrapper */
+.impact,
+.contact-section {
+  position: relative;
+  z-index: 1;
+  padding: var(--space-3xl) var(--space-2xl);
+}
+
+/* Semi-transparent panel behind content so text is readable over stars */
+.impact::before,
+.contact-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent, rgba(5, 10, 20, 0.7) 20%, rgba(5, 10, 20, 0.7) 80%, transparent);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ============================================
+   IMPACT / TRACK RECORD
+   ============================================ */
+
+.impact__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-lg);
+  margin-top: var(--space-xl);
+}
+
+.stat-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(var(--blur-card));
+  border: 1px solid var(--border-card);
+  border-left-width: 2px;
+  padding: var(--space-xl) var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.stat-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.stat-card:nth-child(1) { border-left-color: var(--cyan);     transition-delay: 0s; }
+.stat-card:nth-child(2) { border-left-color: var(--magenta);  transition-delay: 0.1s; }
+.stat-card:nth-child(3) { border-left-color: var(--amber);    transition-delay: 0.2s; }
+.stat-card:nth-child(4) { border-left-color: var(--lavender); transition-delay: 0.3s; }
+
+.stat-card__value {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.stat-card__unit {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: var(--font-mono);
+  color: var(--text-muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 0.1rem;
+}
+
+.stat-card__label {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+  margin-top: var(--space-sm);
+}
+
+/* ============================================
+   CONTACT
+   ============================================ */
+
+.contact-section__body {
+  max-width: 52rem;
+}
+
+.contact-section__cta {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(1.5rem, 3vw, 2.4rem);
+  font-weight: 600;
+  color: var(--text-hi);
+  letter-spacing: 1px;
+  margin-bottom: var(--space-2xl);
+  margin-top: var(--space-xl);
+}
+
+.contact-section__links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin-bottom: var(--space-2xl);
+}
+
+.contact-section__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-md);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 1rem;
+  color: var(--text-body);
+  border-bottom: 1px solid var(--border-faint);
+  padding-bottom: var(--space-md);
+  transition: color var(--transition-base);
+  max-width: fit-content;
+}
+
+.contact-section__link:hover {
+  color: var(--cyan);
+}
+
+.contact-section__link-icon {
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  color: var(--cyan);
+  flex-shrink: 0;
+  transition: border-color var(--transition-base);
+}
+
+.contact-section__link:hover .contact-section__link-icon {
+  border-color: rgba(51, 170, 255, 0.4);
+}
+
+.contact-section__location {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: var(--font-mono);
+  color: var(--text-dim);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+
+.footer {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-xl) var(--space-2xl);
+  border-top: 1px solid var(--border-faint);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--text-dim);
+  letter-spacing: 1.5px;
+}
+
+.footer__sep {
+  color: var(--border-subtle);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 900px) {
+  .impact__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .impact,
+  .contact-section {
+    padding: var(--space-2xl) var(--space-lg);
+  }
+
+  .impact__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-md);
+  }
+
+  .stat-card {
+    padding: var(--space-lg) var(--space-md);
+  }
+
+  .contact-section__cta {
+    font-size: 1.4rem;
+  }
+
+  .footer {
+    padding: var(--space-lg);
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .impact__grid {
+    grid-template-columns: 1fr;
+  }
+}

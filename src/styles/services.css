@@ -1,0 +1,181 @@
+/* ============================================
+   CYBERBUILD.CA — Services Section
+   GSAP horizontal scroll: cards pin and pan
+   ============================================ */
+
+.services {
+  position: relative;
+  background: transparent;
+  overflow: hidden;
+}
+
+.services .section-header {
+  position: absolute;
+  top: calc(var(--nav-h) + var(--space-xl));
+  left: var(--space-2xl);
+  right: var(--space-2xl);
+  z-index: 2;
+  margin-bottom: 0;
+}
+
+.services__track {
+  display: flex;
+  align-items: stretch;
+  gap: 1.25rem;
+  padding: calc(var(--nav-h) + 5rem) var(--space-2xl) var(--space-2xl);
+  height: 100vh;
+  will-change: transform;
+}
+
+/* --- Service Card --- */
+.service-card {
+  flex: 0 0 clamp(300px, 34vw, 430px);
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-card);
+  backdrop-filter: blur(var(--blur-card));
+  border: 1px solid var(--border-card);
+  padding: var(--space-xl) var(--space-xl) var(--space-lg);
+  position: relative;
+  overflow: hidden;
+  clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
+  transition: border-color var(--transition-base), transform var(--transition-base);
+}
+
+.service-card:hover {
+  border-color: rgba(51, 170, 255, 0.35);
+  transform: translateY(-3px);
+}
+
+/* Top accent bar */
+.service-card__accent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  opacity: 0.8;
+}
+
+/* Service label / badge */
+.service-card__label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: var(--font-label);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: var(--space-md);
+  margin-top: var(--space-sm);
+}
+
+/* Title */
+.service-card__title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-hi);
+  letter-spacing: 1px;
+  margin-bottom: var(--space-md);
+  line-height: 1.3;
+}
+
+/* Description */
+.service-card__desc {
+  font-size: var(--font-body);
+  line-height: 1.75;
+  color: var(--text-body);
+  margin-bottom: var(--space-sm);
+}
+
+/* Detail */
+.service-card__detail {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+  margin-bottom: var(--space-lg);
+  flex: 1;
+}
+
+/* Tech pills */
+.service-card__tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: auto;
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--border-divider);
+}
+
+.service-card__tech-item {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid var(--border-faint);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: border-color var(--transition-fast), color var(--transition-fast);
+}
+
+.service-card__tech-item::before {
+  content: '';
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--dot, var(--cyan));
+  flex-shrink: 0;
+}
+
+.service-card:hover .service-card__tech-item {
+  border-color: var(--border-subtle);
+  color: var(--text-body);
+}
+
+/* --- Progress bar --- */
+.services__progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--border-faint);
+  z-index: 2;
+}
+
+.services__progress-fill {
+  height: 100%;
+  background: linear-gradient(to right, var(--cyan), var(--lavender));
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 0.1s linear;
+}
+
+/* --- Mobile: vertical stack --- */
+@media (max-width: 768px) {
+  .services {
+    overflow: visible;
+  }
+
+  .services .section-header {
+    position: static;
+    padding: var(--space-2xl) var(--space-lg) 0;
+    margin-bottom: var(--space-xl);
+  }
+
+  .services__track {
+    flex-direction: column;
+    height: auto;
+    padding: 0 var(--space-lg) var(--space-2xl);
+    gap: var(--space-md);
+  }
+
+  .service-card {
+    flex: none;
+    width: 100%;
+  }
+
+  .services__progress-bar {
+    display: none;
+  }
+}

@@ -1,65 +1,75 @@
 /* ============================================
    CYBERBUILD.CA — Design Tokens
-   CSS Custom Properties for theming
+   Aligned with gp.cyberbuild.ca design system
    ============================================ */
 
 :root {
   /* --- Background --- */
-  --bg-void: #000006;
-  --bg-card: rgba(10, 12, 28, 0.92);
-  --bg-nav: rgba(0, 0, 6, 0.9);
+  --bg:          #050a14;
+  --bg2:         #080d1a;
+  --bg3:         #0c1222;
+  --bg-card:     rgba(8, 14, 28, 0.92);
+  --bg-nav:      rgba(5, 10, 20, 0.88);
 
-  /* --- Brand --- */
-  --brand-blue: #3a9efd;
-  --brand-blue-light: #5cb8ff;
+  /* --- Accent colors --- */
+  --cyan:        #33aaff;
+  --magenta:     #ff3aaa;
+  --amber:       #ffaa33;
+  --teal:        #33ffcc;
+  --lavender:    #bb88ff;
+
+  /* --- Brand (nav/logo) --- */
+  --brand-blue:        #3a9efd;
+  --brand-blue-light:  #5cb8ff;
   --brand-blue-bright: #8ad4ff;
-  --brand-purple: #8855cc;
-  --brand-purple-bright: #aa77ee;
-  --brand-purple-dim: #4422aa;
 
   /* --- Text --- */
-  --text-primary: #ffffff;
-  --text-body: #c0cde0;
-  --text-muted: #8a9fc0;
-  --text-dim: #5a6a8a;
-  --text-nav: #7a8fb0;
-
-  /* --- Borders --- */
-  --border-card: rgba(58, 158, 253, 0.25);
-  --border-subtle: rgba(58, 158, 253, 0.15);
-  --border-faint: rgba(58, 158, 253, 0.08);
-  --border-divider: rgba(58, 158, 253, 0.12);
+  --text-hi:      #e8f4ff;
+  --text-primary: #c8d8e8;
+  --text-body:    #c0cde0;
+  --text-muted:   #7090a8;
+  --text-dim:     #4a5a7a;
+  --text-nav:     #7a8fb0;
 
   /* --- Logo trace colors --- */
-  --logo-cyan: #00E5FF;
+  --logo-cyan:    #00E5FF;
   --logo-magenta: #D500F9;
-  --logo-amber: #FFC400;
-  --logo-white: #FFFFFF;
+  --logo-amber:   #FFC400;
+  --logo-white:   #FFFFFF;
+
+  /* --- Borders --- */
+  --border-card:    rgba(51, 170, 255, 0.2);
+  --border-subtle:  rgba(51, 170, 255, 0.15);
+  --border-faint:   rgba(51, 170, 255, 0.08);
+  --border-divider: rgba(51, 170, 255, 0.12);
 
   /* --- Shadows --- */
-  --shadow-card: 0 0 40px rgba(0, 0, 0, 0.5);
-  --shadow-card-inset: inset 0 0 60px rgba(10, 12, 28, 0.3);
+  --shadow-card: 0 4px 40px rgba(0, 0, 0, 0.5);
 
   /* --- Blur --- */
-  --blur-nav: 16px;
-  --blur-card: 30px;
+  --blur-nav:  16px;
+  --blur-card: 20px;
 
-  /* --- Typography scale (relative to dynamic root) --- */
-  --font-heading: 1.35rem;
-  --font-body: 1rem;
-  --font-nav: 0.8rem;
-  --font-badge: 0.7rem;
-  --font-tech: 0.8rem;
-  --font-small: 0.75rem;
-  --font-logo: 1.05rem;
+  /* --- Typography scale --- */
+  --font-display: clamp(3.5rem, 8vw, 7rem);
+  --font-heading: 1.4rem;
+  --font-body:    1rem;
+  --font-nav:     0.8rem;
+  --font-label:   0.7rem;
+  --font-mono:    0.78rem;
+  --font-logo:    1.05rem;
 
   /* --- Spacing --- */
-  --space-xs: 0.25rem;
-  --space-sm: 0.5rem;
-  --space-md: 1rem;
-  --space-lg: 1.5rem;
-  --space-xl: 2rem;
+  --space-xs:  0.25rem;
+  --space-sm:  0.5rem;
+  --space-md:  1rem;
+  --space-lg:  1.5rem;
+  --space-xl:  2rem;
   --space-2xl: 3rem;
+  --space-3xl: 5rem;
+
+  /* --- Nav height --- */
+  --nav-h: 3.75rem;
 
   /* --- Transitions --- */
   --transition-fast: 0.15s ease;

@@ -2,6 +2,12 @@
    CYBERBUILD.CA — Navigation
    ============================================ */
 
+/* Page scroll wrapper — sits above the fixed canvas */
+.page {
+  position: relative;
+  z-index: 1;
+}
+
 .nav {
   position: fixed;
   top: 0;

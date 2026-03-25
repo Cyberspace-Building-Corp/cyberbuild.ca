@@ -7,5 +7,7 @@
 @import './base.css';
 @import './nav.css';
 @import './scene.css';
-@import './overlay.css';
 @import './search.css';
+@import './hero.css';
+@import './services.css';
+@import './sections.css';
