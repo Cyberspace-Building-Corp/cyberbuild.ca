@@ -1,181 +1,185 @@
 /* ============================================
-   CYBERBUILD.CA — Services Section
-   GSAP horizontal scroll: cards pin and pan
+   CYBERBUILD.CA — Card Stage
+   Fixed overlay, cards slide in from right
    ============================================ */
 
-.services {
+/* Scroll driver — invisible, creates scroll space */
+.scroll-driver {
   position: relative;
-  background: transparent;
-  overflow: hidden;
+  z-index: 0;
 }
 
-.services .section-header {
-  position: absolute;
-  top: calc(var(--nav-h) + var(--space-xl));
-  left: var(--space-2xl);
-  right: var(--space-2xl);
-  z-index: 2;
-  margin-bottom: 0;
-}
-
-.services__track {
-  display: flex;
-  align-items: stretch;
-  gap: 1.25rem;
-  padding: calc(var(--nav-h) + 5rem) var(--space-2xl) var(--space-2xl);
+.scroll-section {
   height: 100vh;
-  will-change: transform;
 }
 
-/* --- Service Card --- */
-.service-card {
-  flex: 0 0 clamp(300px, 34vw, 430px);
-  display: flex;
-  flex-direction: column;
-  background: var(--bg-card);
-  backdrop-filter: blur(var(--blur-card));
-  border: 1px solid var(--border-card);
-  padding: var(--space-xl) var(--space-xl) var(--space-lg);
-  position: relative;
-  overflow: hidden;
-  clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
-  transition: border-color var(--transition-base), transform var(--transition-base);
-}
+/* ============================================
+   Card Stage — fixed, centered
+   ============================================ */
 
-.service-card:hover {
-  border-color: rgba(51, 170, 255, 0.35);
-  transform: translateY(-3px);
-}
-
-/* Top accent bar */
-.service-card__accent {
-  position: absolute;
+.card-stage {
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  height: 2px;
-  opacity: 0.8;
+  bottom: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  padding: calc(var(--nav-h) + 1rem) var(--space-xl) var(--space-xl);
 }
 
-/* Service label / badge */
-.service-card__label {
+/* Individual card — starts off-screen right */
+.stage-card {
+  position: absolute;
+  width: 92%;
+  max-width: 36rem;
+  max-height: calc(100vh - var(--nav-h) - 3rem);
+  overflow-y: auto;
+  pointer-events: auto;
+
+  /* Original overlay card look */
+  background: rgba(10, 12, 28, 0.92);
+  backdrop-filter: blur(30px);
+  border: 1px solid rgba(58, 158, 253, 0.25);
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.5), inset 0 0 60px rgba(10, 12, 28, 0.3);
+  padding: var(--space-xl) 2.2rem;
+
+  /* Off-screen: to the right */
+  transform: translateX(calc(100vw + 4rem));
+  opacity: 0;
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+  will-change: transform;
+}
+
+.stage-card::-webkit-scrollbar { width: 4px; }
+.stage-card::-webkit-scrollbar-track { background: transparent; }
+.stage-card::-webkit-scrollbar-thumb {
+  background: rgba(58, 158, 253, 0.2);
+  border-radius: 2px;
+}
+
+/* Active card — slides in from right to center */
+.stage-card.card--active {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* ============================================
+   Card content — original overlay card styles
+   ============================================ */
+
+.card__badge {
+  display: inline-block;
   font-family: 'Share Tech Mono', monospace;
   font-size: var(--font-label);
   letter-spacing: 3px;
   text-transform: uppercase;
+  padding: 0.3rem 0.65rem;
   margin-bottom: var(--space-md);
-  margin-top: var(--space-sm);
 }
 
-/* Title */
-.service-card__title {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 600;
+.card__title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
   color: var(--text-hi);
-  letter-spacing: 1px;
+  letter-spacing: 0px;
   margin-bottom: var(--space-md);
-  line-height: 1.3;
+  line-height: 1.2;
 }
 
-/* Description */
-.service-card__desc {
+.card__text {
   font-size: var(--font-body);
-  line-height: 1.75;
+  line-height: 1.8;
   color: var(--text-body);
-  margin-bottom: var(--space-sm);
+  margin-bottom: 0.7rem;
 }
 
-/* Detail */
-.service-card__detail {
-  font-size: 0.9rem;
-  line-height: 1.7;
-  color: var(--text-muted);
-  margin-bottom: var(--space-lg);
-  flex: 1;
-}
-
-/* Tech pills */
-.service-card__tech {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem;
-  margin-top: auto;
+.card__tech-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.4rem var(--space-lg);
+  margin-top: var(--space-md);
   padding-top: var(--space-md);
   border-top: 1px solid var(--border-divider);
 }
 
-.service-card__tech-item {
+.card__tech-item {
   font-family: 'Share Tech Mono', monospace;
-  font-size: 0.68rem;
-  color: var(--text-muted);
-  letter-spacing: 0.5px;
-  padding: 0.2rem 0.5rem;
-  border: 1px solid var(--border-faint);
+  font-size: var(--font-mono);
+  color: #c8d6ea;
+  padding: 0.25rem 0;
   display: flex;
   align-items: center;
-  gap: 0.35rem;
-  transition: border-color var(--transition-fast), color var(--transition-fast);
+  gap: 0.4rem;
 }
 
-.service-card__tech-item::before {
-  content: '';
-  width: 4px;
-  height: 4px;
+.card__tech-dot {
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
-  background: var(--dot, var(--cyan));
   flex-shrink: 0;
 }
 
-.service-card:hover .service-card__tech-item {
-  border-color: var(--border-subtle);
+/* Contact card links */
+.card__contact-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-top: 1.2rem;
+}
+
+.card__contact-link {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.9rem;
   color: var(--text-body);
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--border-faint);
+  transition: color var(--transition-base);
 }
 
-/* --- Progress bar --- */
-.services__progress-bar {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--border-faint);
-  z-index: 2;
+.card__contact-link:hover { color: var(--brand-blue-light); }
+
+.card__contact-icon {
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  color: var(--brand-blue-light);
+  flex-shrink: 0;
+  transition: border-color var(--transition-base);
 }
 
-.services__progress-fill {
-  height: 100%;
-  background: linear-gradient(to right, var(--cyan), var(--lavender));
-  transform-origin: left;
-  transform: scaleX(0);
-  transition: transform 0.1s linear;
+.card__contact-link:hover .card__contact-icon {
+  border-color: rgba(58, 158, 253, 0.4);
 }
 
-/* --- Mobile: vertical stack --- */
-@media (max-width: 768px) {
-  .services {
-    overflow: visible;
-  }
+.card__location {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: var(--font-mono);
+  color: var(--text-nav);
+  letter-spacing: 2px;
+  margin-top: var(--space-lg);
+  text-transform: uppercase;
+}
 
-  .services .section-header {
-    position: static;
-    padding: var(--space-2xl) var(--space-lg) 0;
-    margin-bottom: var(--space-xl);
-  }
-
-  .services__track {
-    flex-direction: column;
-    height: auto;
-    padding: 0 var(--space-lg) var(--space-2xl);
-    gap: var(--space-md);
-  }
-
-  .service-card {
-    flex: none;
+/* Mobile */
+@media (max-width: 640px) {
+  .stage-card {
     width: 100%;
+    max-width: 100%;
+    max-height: calc(100vh - var(--nav-h) - 1rem);
+    padding: var(--space-lg) var(--space-md);
   }
 
-  .services__progress-bar {
-    display: none;
-  }
+  .card__tech-grid { grid-template-columns: 1fr; }
 }

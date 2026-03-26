@@ -1,19 +1,15 @@
 // ============================================
 // CYBERBUILD.CA — Main Entry Point
-// Star field background + scroll-driven page
-// GSAP ScrollTrigger for horizontal service cards
+// Fixed hero + star field. Scrolling drives
+// which service card slides in from the right.
 // ============================================
 
 import './styles/main.css';
 import type { ServiceMap, ServiceKey } from './lib/types';
 import { createStarScene, startStarLoop, handleStarResize } from './lib/scene';
 import { buildSearchIndex, searchServices, highlightMatch } from './lib/search';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-gsap.registerPlugin(ScrollTrigger);
-
-// --- Read service data from DOM (SEO sections) ---
+// --- Read service data from SEO DOM ---
 function readServicesFromDOM(): ServiceMap {
   const services: Partial<ServiceMap> = {};
   document.querySelectorAll<HTMLElement>('.seo-content section[data-service]').forEach((section) => {
@@ -21,7 +17,7 @@ function readServicesFromDOM(): ServiceMap {
     if (key === 'contact' as any) return;
     const color = section.dataset.color || '#ffffff';
     const label = section.querySelector('h2')?.textContent?.trim() || key.toUpperCase();
-    const desc  = section.querySelector('.seo-desc')?.textContent?.trim() || '';
+    const desc   = section.querySelector('.seo-desc')?.textContent?.trim() || '';
     const detail = section.querySelector('.seo-detail')?.textContent?.trim() || '';
     const tech: string[] = [];
     section.querySelectorAll('.seo-tech li').forEach((li) => tech.push(li.textContent?.trim() || ''));
@@ -31,30 +27,57 @@ function readServicesFromDOM(): ServiceMap {
 }
 
 // --- DOM refs ---
-const canvas      = document.getElementById('canvas') as HTMLCanvasElement;
-const nav         = document.getElementById('nav')!;
-const navToggle   = document.getElementById('navToggle') as HTMLButtonElement;
-const navLinks    = document.querySelectorAll<HTMLAnchorElement>('#navLinks a');
-const searchInput = document.getElementById('searchInput') as HTMLInputElement;
+const canvas        = document.getElementById('canvas') as HTMLCanvasElement;
+const heroFixed     = document.getElementById('heroFixed')!;
+const nav           = document.getElementById('nav')!;
+const navToggle     = document.getElementById('navToggle') as HTMLButtonElement;
+const navLinks      = document.querySelectorAll<HTMLAnchorElement>('#navLinks a');
+const searchInput   = document.getElementById('searchInput') as HTMLInputElement;
 const searchResults = document.getElementById('searchResults')!;
 
 // --- Star scene ---
 const starState = createStarScene(canvas);
 startStarLoop(starState);
 
-// --- Service data ---
+// --- Service data (for search) ---
 const svc = readServicesFromDOM();
 const searchIndex = buildSearchIndex(svc);
 
-// --- Nav scroll behavior ---
-const sectionMap: Record<string, string> = {
-  overview:     '#hero',
-  database:     '#capabilities',
-  appdev:       '#capabilities',
-  cloud:        '#capabilities',
-  data:         '#capabilities',
-  architecture: '#capabilities',
-  contact:      '#contact',
+// --- Card management ---
+const cards = new Map<string, HTMLElement>();
+document.querySelectorAll<HTMLElement>('.stage-card').forEach((el) => {
+  const key = el.id.replace('card-', '');
+  cards.set(key, el);
+});
+
+let activeCard: string | null = null;
+
+function showCard(key: string | null): void {
+  if (key === activeCard) return;
+  activeCard = key;
+
+  // Toggle card-active class on hero (dims headline, hides qualifier)
+  heroFixed.classList.toggle('card-active', !!key);
+
+  // Swap visible card
+  cards.forEach((el, k) => {
+    el.classList.toggle('card--active', k === key);
+  });
+
+  // Update nav active state
+  const block = key || 'overview';
+  setActiveNav(block);
+}
+
+// --- Nav scroll ---
+const navToSection: Record<string, string> = {
+  overview:     'sec-hero',
+  database:     'sec-database',
+  appdev:       'sec-appdev',
+  cloud:        'sec-cloud',
+  data:         'sec-data',
+  architecture: 'sec-architecture',
+  contact:      'sec-contact',
 };
 
 function setActiveNav(block: string): void {
@@ -67,16 +90,13 @@ navLinks.forEach((a) => {
     nav.classList.remove('nav--open');
     navToggle.setAttribute('aria-expanded', 'false');
     const block = a.dataset.block!;
-    const target = sectionMap[block] || '#hero';
-    const el = document.querySelector(target);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-    setActiveNav(block);
+    const targetId = navToSection[block] || 'sec-hero';
+    document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' });
   });
 });
 
 document.getElementById('logoHome')?.addEventListener('click', () => {
-  document.querySelector('#hero')?.scrollIntoView({ behavior: 'smooth' });
-  setActiveNav('overview');
+  document.getElementById('sec-hero')?.scrollIntoView({ behavior: 'smooth' });
 });
 
 navToggle.addEventListener('click', () => {
@@ -85,101 +105,42 @@ navToggle.addEventListener('click', () => {
   navToggle.setAttribute('aria-expanded', String(next));
 });
 
-// --- Update active nav on scroll ---
-const sections = [
-  { id: 'hero',         block: 'overview' },
-  { id: 'capabilities', block: 'database' },
-  { id: 'trackrecord',  block: 'overview' },
-  { id: 'contact',      block: 'contact' },
-];
+// --- Scroll observer — determines which card to show ---
+const scrollSections = document.querySelectorAll<HTMLElement>('.scroll-section');
 
 const sectionObserver = new IntersectionObserver(
   (entries) => {
+    // Find the most-visible section that is intersecting
+    let best: { key: string; ratio: number } = { key: '', ratio: 0 };
     entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        const id = entry.target.id;
-        const found = sections.find((s) => s.id === id);
-        if (found) setActiveNav(found.block);
+      if (entry.isIntersecting && entry.intersectionRatio > best.ratio) {
+        best = {
+          key:   (entry.target as HTMLElement).dataset.card || '',
+          ratio: entry.intersectionRatio,
+        };
       }
     });
+    // Only update if we have a clear winner
+    if (best.ratio > 0) showCard(best.key || null);
   },
-  { threshold: 0.3 }
-);
-sections.forEach(({ id }) => {
-  const el = document.getElementById(id);
-  if (el) sectionObserver.observe(el);
-});
-
-// --- Scroll-reveal (fade-up) ---
-const fadeObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        fadeObserver.unobserve(entry.target);
-      }
-    });
-  },
-  { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+  {
+    threshold: [0.25, 0.5, 0.75],
+    rootMargin: '-5% 0px -5% 0px',
+  }
 );
 
-document.querySelectorAll('.fade-up').forEach((el) => fadeObserver.observe(el));
+scrollSections.forEach((s) => sectionObserver.observe(s));
 
-// --- Staggered grid reveals ---
-const gridObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.querySelectorAll<HTMLElement>('.stat-card').forEach((card, i) => {
-          setTimeout(() => card.classList.add('visible'), i * 100);
-        });
-        gridObserver.unobserve(entry.target);
-      }
-    });
-  },
-  { threshold: 0.1 }
-);
-document.querySelectorAll('.impact__grid').forEach((el) => gridObserver.observe(el));
-
-// --- GSAP Horizontal scroll for services ---
-function initHorizontalScroll(): void {
-  const section = document.querySelector('.services') as HTMLElement;
-  const track   = document.querySelector('.services__track') as HTMLElement;
-  if (!section || !track) return;
-
-  // Mobile: skip GSAP, let cards stack vertically
-  if (window.innerWidth <= 768) return;
-
-  const scrollDist = track.scrollWidth - window.innerWidth + 64;
-
-  gsap.to(track, {
-    x: -scrollDist,
-    ease: 'none',
-    scrollTrigger: {
-      trigger: section,
-      pin: true,
-      scrub: 1,
-      start: 'top top',
-      end: () => `+=${scrollDist}`,
-      onUpdate: (self) => {
-        const progress = document.getElementById('servicesProgress');
-        if (progress) progress.style.transform = `scaleX(${self.progress})`;
-      },
-    },
-  });
-}
-
-// Wait for fonts/layout before measuring
+// --- Hero entrance animations ---
 window.addEventListener('load', () => {
-  initHorizontalScroll();
-
-  // Hero headline stagger
-  document.querySelectorAll<HTMLElement>('.hero__headline-line').forEach((el, i) => {
-    el.style.transitionDelay = `${0.1 + i * 0.12}s`;
-    el.classList.add('visible');
+  const lines = document.querySelectorAll<HTMLElement>('.hero__headline-line');
+  lines.forEach((el, i) => {
+    el.style.transitionDelay = `${0.05 + i * 0.13}s`;
+    requestAnimationFrame(() => el.classList.add('visible'));
   });
-  document.querySelector('.hero__qualifier')?.classList.add('visible');
-  document.querySelector('.hero__scroll-cue')?.classList.add('visible');
+  document.getElementById('heroQualifier')?.classList.add('visible');
+  document.getElementById('heroMeta')?.classList.add('visible');
+  document.getElementById('heroScrollCue')?.classList.add('visible');
 });
 
 // --- Search ---
@@ -218,8 +179,8 @@ function doSearch(query: string): void {
     item.addEventListener('click', () => {
       searchResults.classList.remove('search-results--open');
       searchInput.value = '';
-      // Scroll to the services section (horizontal scroll will handle card position)
-      document.querySelector('#capabilities')?.scrollIntoView({ behavior: 'smooth' });
+      const targetId = navToSection[item.dataset.key as string] || 'sec-hero';
+      document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' });
     });
   });
 }
@@ -234,13 +195,12 @@ searchInput.addEventListener('keydown', (e) => {
   if (!items.length) return;
   const active = searchResults.querySelector<HTMLElement>('.search-results__item--active');
   let idx = Array.from(items).indexOf(active!);
-  if (e.key === 'ArrowDown')  { e.preventDefault(); active?.classList.remove('search-results__item--active'); idx = Math.min(idx + 1, items.length - 1); items[idx].classList.add('search-results__item--active'); items[idx].scrollIntoView({ block: 'nearest' }); }
+  if (e.key === 'ArrowDown')       { e.preventDefault(); active?.classList.remove('search-results__item--active'); idx = Math.min(idx + 1, items.length - 1); items[idx].classList.add('search-results__item--active'); items[idx].scrollIntoView({ block: 'nearest' }); }
   else if (e.key === 'ArrowUp')    { e.preventDefault(); active?.classList.remove('search-results__item--active'); idx = Math.max(idx - 1, 0); items[idx].classList.add('search-results__item--active'); items[idx].scrollIntoView({ block: 'nearest' }); }
-  else if (e.key === 'Enter' && active)  { active.click(); }
-  else if (e.key === 'Escape') { searchResults.classList.remove('search-results--open'); searchInput.blur(); }
+  else if (e.key === 'Enter' && active) { active.click(); }
+  else if (e.key === 'Escape')     { searchResults.classList.remove('search-results--open'); searchInput.blur(); }
 });
 
-// --- Keyboard ---
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && nav.classList.contains('nav--open')) {
     nav.classList.remove('nav--open');
@@ -249,7 +209,4 @@ document.addEventListener('keydown', (e) => {
 });
 
 // --- Resize ---
-window.addEventListener('resize', () => {
-  handleStarResize(starState);
-  ScrollTrigger.refresh();
-});
+window.addEventListener('resize', () => handleStarResize(starState));

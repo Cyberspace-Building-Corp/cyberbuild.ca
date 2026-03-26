@@ -1,19 +1,18 @@
 /* ============================================
-   CYBERBUILD.CA — Hero Section
-   icomat-style: headline anchored bottom-left,
-   qualifier top-right, star field behind
+   CYBERBUILD.CA — Hero (always fixed, always visible)
    ============================================ */
 
-.hero {
-  position: relative;
-  height: 100vh;
-  min-height: 600px;
-  display: flex;
-  flex-direction: column;
-  padding: var(--nav-h) var(--space-2xl) var(--space-2xl);
+.hero-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  pointer-events: none;
 }
 
-/* Qualifier — top-right */
+/* Qualifier — top-right, fades out when a card is active */
 .hero__qualifier {
   position: absolute;
   top: calc(var(--nav-h) + var(--space-2xl));
@@ -23,50 +22,65 @@
   font-family: 'Rajdhani', sans-serif;
   font-size: 1rem;
   font-weight: 400;
-  line-height: 1.7;
+  line-height: 1.75;
   color: var(--text-muted);
-  letter-spacing: 0.3px;
   opacity: 0;
   transform: translateY(10px);
-  transition: opacity 0.8s ease 0.6s, transform 0.8s ease 0.6s;
+  filter: blur(4px);
+  transition: opacity 0.9s ease 0.7s, transform 0.9s ease 0.7s, filter 0.9s ease 0.7s;
 }
 
 .hero__qualifier.visible {
   opacity: 1;
   transform: translateY(0);
+  filter: blur(0);
 }
 
-/* Headline — bottom-left, massive */
+/* Fade qualifier when card is active */
+.hero-fixed.card-active .hero__qualifier {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+/* Headline — bottom-left, large */
 .hero__headline {
   position: absolute;
-  bottom: calc(var(--space-3xl) + 2rem);
+  bottom: calc(var(--space-3xl) + 1.5rem);
   left: var(--space-2xl);
   display: flex;
   flex-direction: column;
-  line-height: 0.92;
+  line-height: 0.9;
 }
 
 .hero__headline-line {
   display: block;
-  font-family: 'Orbitron', sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
   font-size: var(--font-display);
   font-weight: 700;
   color: var(--text-hi);
-  letter-spacing: -1px;
+  letter-spacing: -2px;
   opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  transform: translateY(18px);
+  filter: blur(6px);
+  transition: opacity 0.75s ease, transform 0.75s ease, filter 0.75s ease;
 }
 
 .hero__headline-line.visible {
   opacity: 1;
   transform: translateY(0);
+  filter: blur(0);
 }
 
-/* Location meta — bottom-left, below headline */
+/* Dim headline when a card is visible */
+.hero-fixed.card-active .hero__headline-line {
+  opacity: 0.15;
+  transition: opacity 0.5s ease;
+}
+
+/* Location meta */
 .hero__meta {
   position: absolute;
-  bottom: var(--space-2xl);
+  bottom: var(--space-xl);
   left: var(--space-2xl);
   display: flex;
   align-items: center;
@@ -75,82 +89,76 @@
   font-size: var(--font-mono);
   color: var(--text-dim);
   letter-spacing: 2px;
+  opacity: 0;
+  transition: opacity 1s ease 1.4s;
 }
 
-.hero__meta-sep {
-  color: var(--border-subtle);
+.hero__meta.visible {
+  opacity: 1;
 }
 
-/* Scroll cue — bottom-right */
+.hero__meta-sep { color: var(--border-subtle); }
+
+/* Scroll cue */
 .hero__scroll-cue {
   position: absolute;
-  bottom: var(--space-2xl);
+  bottom: var(--space-xl);
   right: var(--space-2xl);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
   opacity: 0;
-  transition: opacity 1s ease 1.2s;
+  transition: opacity 1s ease 1.6s;
 }
 
-.hero__scroll-cue.visible {
-  opacity: 0.35;
+.hero__scroll-cue.visible { opacity: 0.35; }
+
+/* Hide scroll cue once user has scrolled past hero */
+.hero-fixed.card-active .hero__scroll-cue {
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .hero__scroll-text {
   font-family: 'Share Tech Mono', monospace;
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   letter-spacing: 3px;
   color: var(--text-dim);
   writing-mode: vertical-rl;
-  text-orientation: mixed;
 }
 
 .hero__scroll-line {
   width: 1px;
   height: 3rem;
   background: linear-gradient(to bottom, var(--text-dim), transparent);
-  animation: scrollPulse 2s ease-in-out infinite;
+  animation: scrollPulse 2.2s ease-in-out infinite;
 }
 
 @keyframes scrollPulse {
-  0%, 100% { opacity: 0.4; transform: scaleY(1); }
-  50%       { opacity: 0.9; transform: scaleY(1.1); }
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 1; }
 }
 
-/* --- Mobile --- */
+/* Mobile */
 @media (max-width: 768px) {
-  .hero {
-    padding: var(--nav-h) var(--space-lg) var(--space-xl);
-  }
-
-  .hero__qualifier {
-    position: static;
-    max-width: 100%;
-    text-align: left;
-    margin-top: var(--space-lg);
-    font-size: 0.9rem;
-  }
+  .hero__qualifier { display: none; }
 
   .hero__headline {
-    bottom: calc(var(--space-2xl) + 3.5rem);
+    bottom: calc(var(--space-xl) + 3.5rem);
     left: var(--space-lg);
   }
 
   .hero__headline-line {
-    font-size: clamp(2.5rem, 12vw, 4.5rem);
+    letter-spacing: -1px;
   }
 
   .hero__meta {
     left: var(--space-lg);
-    bottom: var(--space-lg);
-    font-size: 0.65rem;
+    font-size: 0.62rem;
     flex-wrap: wrap;
     gap: 0.4rem;
   }
 
-  .hero__scroll-cue {
-    display: none;
-  }
+  .hero__scroll-cue { display: none; }
 }

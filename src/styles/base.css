@@ -2,7 +2,7 @@
    CYBERBUILD.CA — Base / Reset
    ============================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap');
 
 * {
   margin: 0;
@@ -20,7 +20,7 @@ body {
   color: var(--text-body);
   font-family: 'Rajdhani', sans-serif;
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: scroll;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -47,16 +47,32 @@ button {
   white-space: nowrap;
 }
 
-/* Scroll-reveal base state */
+/* Scroll-reveal: blur + fade + lift */
 .fade-up {
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transform: translateY(22px);
+  filter: blur(5px);
+  transition: opacity 0.7s ease, transform 0.7s ease, filter 0.7s ease;
 }
 
 .fade-up.visible {
   opacity: 1;
   transform: translateY(0);
+  filter: blur(0);
+}
+
+/* Scroll-reveal: slide in from right */
+.fade-right {
+  opacity: 0;
+  transform: translateX(48px);
+  filter: blur(6px);
+  transition: opacity 0.75s ease, transform 0.75s ease, filter 0.75s ease;
+}
+
+.fade-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+  filter: blur(0);
 }
 
 /* Section shared layout */

@@ -1,6 +1,5 @@
 /* ============================================
    CYBERBUILD.CA — Main Stylesheet
-   Import order matters: tokens → base → components
    ============================================ */
 
 @import './tokens.css';
@@ -10,4 +9,3 @@
 @import './search.css';
 @import './hero.css';
 @import './services.css';
-@import './sections.css';

@@ -1,6 +1,5 @@
 /* ============================================
    CYBERBUILD.CA — Design Tokens
-   Aligned with gp.cyberbuild.ca design system
    ============================================ */
 
 :root {
@@ -8,7 +7,7 @@
   --bg:          #050a14;
   --bg2:         #080d1a;
   --bg3:         #0c1222;
-  --bg-card:     rgba(8, 14, 28, 0.92);
+  --bg-card:     rgba(8, 14, 28, 0.88);
   --bg-nav:      rgba(5, 10, 20, 0.88);
 
   /* --- Accent colors --- */
@@ -24,7 +23,7 @@
   --brand-blue-bright: #8ad4ff;
 
   /* --- Text --- */
-  --text-hi:      #e8f4ff;
+  --text-hi:      #f0f6ff;
   --text-primary: #c8d8e8;
   --text-body:    #c0cde0;
   --text-muted:   #7090a8;
@@ -38,26 +37,27 @@
   --logo-white:   #FFFFFF;
 
   /* --- Borders --- */
-  --border-card:    rgba(51, 170, 255, 0.2);
+  --border-card:    rgba(51, 170, 255, 0.18);
   --border-subtle:  rgba(51, 170, 255, 0.15);
   --border-faint:   rgba(51, 170, 255, 0.08);
-  --border-divider: rgba(51, 170, 255, 0.12);
+  --border-divider: rgba(51, 170, 255, 0.1);
 
   /* --- Shadows --- */
   --shadow-card: 0 4px 40px rgba(0, 0, 0, 0.5);
 
   /* --- Blur --- */
   --blur-nav:  16px;
-  --blur-card: 20px;
+  --blur-card: 18px;
 
-  /* --- Typography scale --- */
-  --font-display: clamp(3.5rem, 8vw, 7rem);
-  --font-heading: 1.4rem;
-  --font-body:    1rem;
-  --font-nav:     0.8rem;
-  --font-label:   0.7rem;
-  --font-mono:    0.78rem;
-  --font-logo:    1.05rem;
+  /* --- Typography --- */
+  --font-display:  clamp(3.5rem, 8vw, 7rem);
+  --font-story:    clamp(2.4rem, 4.5vw, 4.2rem);
+  --font-heading:  1.35rem;
+  --font-body:     1rem;
+  --font-nav:      0.8rem;
+  --font-label:    0.68rem;
+  --font-mono:     0.78rem;
+  --font-logo:     1.05rem;
 
   /* --- Spacing --- */
   --space-xs:  0.25rem;

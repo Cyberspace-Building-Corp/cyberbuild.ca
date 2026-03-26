@@ -2,28 +2,34 @@
    CYBERBUILD.CA — Impact & Contact Sections
    ============================================ */
 
-/* Shared section wrapper */
-.impact,
-.contact-section {
-  position: relative;
-  z-index: 1;
-  padding: var(--space-3xl) var(--space-2xl);
-}
-
-/* Semi-transparent panel behind content so text is readable over stars */
-.impact::before,
-.contact-section::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, transparent, rgba(5, 10, 20, 0.7) 20%, rgba(5, 10, 20, 0.7) 80%, transparent);
-  pointer-events: none;
-  z-index: -1;
-}
-
 /* ============================================
    IMPACT / TRACK RECORD
    ============================================ */
+
+.impact {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: calc(var(--nav-h) + var(--space-2xl)) var(--space-2xl) var(--space-2xl);
+}
+
+.impact::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(5, 10, 20, 0.72) 8%,
+    rgba(5, 10, 20, 0.72) 92%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: -1;
+}
 
 .impact__grid {
   display: grid;
@@ -42,23 +48,15 @@
   flex-direction: column;
   gap: 0.3rem;
   clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-.stat-card.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.stat-card:nth-child(1) { border-left-color: var(--cyan);     transition-delay: 0s; }
-.stat-card:nth-child(2) { border-left-color: var(--magenta);  transition-delay: 0.1s; }
-.stat-card:nth-child(3) { border-left-color: var(--amber);    transition-delay: 0.2s; }
-.stat-card:nth-child(4) { border-left-color: var(--lavender); transition-delay: 0.3s; }
+.stat-card:nth-child(1) { border-left-color: var(--cyan); }
+.stat-card:nth-child(2) { border-left-color: var(--magenta); }
+.stat-card:nth-child(3) { border-left-color: var(--amber); }
+.stat-card:nth-child(4) { border-left-color: var(--lavender); }
 
 .stat-card__value {
-  font-family: 'Orbitron', sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
   font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 700;
   line-height: 1;
@@ -75,33 +73,68 @@
 
 .stat-card__label {
   font-family: 'Rajdhani', sans-serif;
-  font-size: 0.88rem;
+  font-size: 0.9rem;
   color: var(--text-muted);
   line-height: 1.4;
   margin-top: var(--space-sm);
 }
 
 /* ============================================
-   CONTACT
+   CONTACT — centered, full screen
    ============================================ */
 
+.contact-section {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: calc(var(--nav-h) + var(--space-2xl)) var(--space-2xl) var(--space-2xl);
+}
+
+.contact-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(5, 10, 20, 0.72) 8%,
+    rgba(5, 10, 20, 0.72) 92%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+.contact-section .section-header {
+  width: 100%;
+  max-width: 48rem;
+}
+
 .contact-section__body {
-  max-width: 52rem;
+  max-width: 48rem;
+  width: 100%;
 }
 
 .contact-section__cta {
-  font-family: 'Orbitron', sans-serif;
-  font-size: clamp(1.5rem, 3vw, 2.4rem);
-  font-weight: 600;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 700;
   color: var(--text-hi);
-  letter-spacing: 1px;
+  letter-spacing: -0.5px;
   margin-bottom: var(--space-2xl);
   margin-top: var(--space-xl);
+  line-height: 1.15;
 }
 
 .contact-section__links {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: var(--space-md);
   margin-bottom: var(--space-2xl);
 }
@@ -115,8 +148,9 @@
   color: var(--text-body);
   border-bottom: 1px solid var(--border-faint);
   padding-bottom: var(--space-md);
+  width: 100%;
+  max-width: 28rem;
   transition: color var(--transition-base);
-  max-width: fit-content;
 }
 
 .contact-section__link:hover {
@@ -130,7 +164,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: var(--cyan);
   flex-shrink: 0;
   transition: border-color var(--transition-base);
@@ -181,22 +215,26 @@
 }
 
 @media (max-width: 768px) {
-  .impact,
-  .contact-section {
-    padding: var(--space-2xl) var(--space-lg);
+  .impact {
+    padding: calc(var(--nav-h) + var(--space-lg)) var(--space-lg) var(--space-xl);
   }
 
-  .impact__grid {
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-md);
+  .contact-section {
+    padding: calc(var(--nav-h) + var(--space-lg)) var(--space-lg) var(--space-xl);
+    text-align: left;
+    align-items: flex-start;
+  }
+
+  .contact-section__links {
+    align-items: flex-start;
+  }
+
+  .contact-section__link {
+    max-width: 100%;
   }
 
   .stat-card {
     padding: var(--space-lg) var(--space-md);
-  }
-
-  .contact-section__cta {
-    font-size: 1.4rem;
   }
 
   .footer {
