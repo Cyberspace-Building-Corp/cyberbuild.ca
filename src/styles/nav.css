@@ -134,7 +134,7 @@
 
 .nav__search-input {
   font-family: 'Share Tech Mono', monospace;
-  font-size: var(--font-small);
+  font-size: var(--font-nav);
   color: var(--text-body);
   background: rgba(10, 12, 28, 0.7);
   border: 1px solid var(--border-subtle);

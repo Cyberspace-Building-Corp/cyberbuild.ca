@@ -10,6 +10,7 @@ import type { Plugin } from 'vite';
 
 interface Service {
   label: string;
+  title: string;
   icon: string;
   iconColor: string;
   description: string;
@@ -24,6 +25,7 @@ interface Contact {
   portfolio: string;
   regions: string[];
   timezone: string;
+  description: string;
 }
 
 function escapeHtml(str: string): string {
@@ -108,6 +110,47 @@ ${svc.tech.map(t => `      <li>${escapeHtml(t)}</li>`).join('\n')}
         '<!--SEO_INJECT-->',
         seoHtml
       );
+
+      // Inject service cards from services.json
+      let serviceCards = '';
+      for (const [key, svc] of Object.entries(services)) {
+        const color = svc.iconColor;
+        const borderColor = color + '33';
+        const techItems = svc.tech.map(t =>
+          `      <span class="card__tech-item"><span class="card__tech-dot" style="background:${color}"></span>${escapeHtml(t)}</span>`
+        ).join('\n');
+        serviceCards += `
+  <div class="stage-card" id="card-${key}">
+    <div class="card__badge" style="color:${color};border:1px solid ${borderColor}">${escapeHtml(svc.label)} //</div>
+    <h2 class="card__title">${escapeHtml(svc.title)}</h2>
+    <p class="card__text">${escapeHtml(svc.description)}</p>
+    <p class="card__text">${escapeHtml(svc.detail)}</p>
+    <div class="card__tech-grid">
+${techItems}
+    </div>
+  </div>
+`;
+      }
+      html = html.replace('<!--SERVICE_CARDS-->', serviceCards);
+
+      // Inject contact card content from contact.json
+      const portfolioDisplay = contact.portfolio.replace('https://', '');
+      const regionsDisplay = contact.regions.join(' &middot; ');
+      const contactCard = `
+    <div class="card__badge" style="color:#5cb8ff;border:1px solid #5cb8ff33">CONTACT //</div>
+    <h2 class="card__title">Get In Touch</h2>
+    <p class="card__text">${escapeHtml(contact.description)}</p>
+    <p class="card__text">Serving ${contact.regions.map(r => escapeHtml(r)).join(', ')}.</p>
+    <div class="card__contact-links">
+      <a class="card__contact-link" href="mailto:${contact.email}">
+        <span class="card__contact-icon">@</span>${escapeHtml(contact.email)}
+      </a>
+      <a class="card__contact-link" href="${contact.portfolio}" target="_blank" rel="noopener">
+        <span class="card__contact-icon">&#8599;</span>${escapeHtml(portfolioDisplay)}
+      </a>
+    </div>
+    <div class="card__location">${regionsDisplay} // ${escapeHtml(contact.timezone)}</div>`;
+      html = html.replace('<!--CONTACT_CARD-->', contactCard);
 
       return html;
     }

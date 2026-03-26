@@ -2,7 +2,8 @@
   "company": "Cyberspace Building Corp.",
   "email": "services@cyberbuild.ca",
   "website": "https://cyberbuild.ca",
-  "portfolio": "https://gregpeterson.cyberbuild.ca",
+  "portfolio": "https://gp.cyberbuild.ca",
   "regions": ["Simcoe County", "Greater Toronto Area", "Worldwide"],
-  "timezone": "EST (UTC-5)"
+  "timezone": "EST (UTC-5)",
+  "description": "Cyberspace Building Corp. delivers full business technology solutions — database design and management, systems integration, web and application development, cloud architecture, and data engineering. From greenfield builds to complex modernization programs, end to end."
 }

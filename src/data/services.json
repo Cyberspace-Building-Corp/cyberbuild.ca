@@ -1,6 +1,7 @@
 {
   "database": {
     "label": "DATABASE",
+    "title": "Database Infrastructure",
     "icon": "database",
     "iconColor": "#33aaff",
     "description": "Enterprise database infrastructure designed for reliability, security, and scale. SQL Server architecture, performance engineering, and high-availability design for organizations where data availability is non-negotiable.",
@@ -16,6 +17,7 @@
   },
   "appdev": {
     "label": "APP DEV",
+    "title": "Application Development",
     "icon": "appdev",
     "iconColor": "#33ffdd",
     "description": "Full-stack enterprise application development with a backend and middle-tier focus. .NET services, Python tooling, React frontends, and REST API design that integrates cleanly with your data platforms and infrastructure.",
@@ -31,6 +33,7 @@
   },
   "cloud": {
     "label": "CLOUD",
+    "title": "Cloud Infrastructure",
     "icon": "cloud",
     "iconColor": "#aa66ff",
     "description": "Azure infrastructure design and delivery for organizations modernizing beyond on-premises or managing hybrid environments. Database services, CI/CD pipelines, containerized workloads, and infrastructure-as-code.",
@@ -47,6 +50,7 @@
   },
   "data": {
     "label": "DATA PLATFORM ENG.",
+    "title": "Data Engineering",
     "icon": "data",
     "iconColor": "#ffaa33",
     "description": "Modern data platforms built on Microsoft Fabric, Databricks, and Power BI — from Lakehouse architecture and pipeline design through to semantic models, real-time analytics, and operational dashboards.",
@@ -65,6 +69,7 @@
   },
   "architecture": {
     "label": "ARCHITECTURE",
+    "title": "Solution Architecture",
     "icon": "architecture",
     "iconColor": "#dd88ff",
     "description": "System-level thinking that connects platforms, teams, and investments into a coherent whole. Integration design, API strategy, security governance, and technical roadmapping for organizations managing complex or evolving technology portfolios.",

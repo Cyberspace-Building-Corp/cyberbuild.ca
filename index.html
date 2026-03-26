@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cyberspace Building Corp — Solution Architecture & Data Engineering</title>
-  <meta name="description" content="Enterprise solution architecture, database administration, data engineering, web application development and cloud infrastructure. SQL Server, Azure, Microsoft Fabric, .NET, Python. Serving Simcoe County, GTA, and worldwide.">
+  <meta name="description" content="Enterprise solution architecture, data engineering, cloud infrastructure, and full-stack software development. SQL Server, Azure, Microsoft Fabric, .NET, Python. Serving Simcoe County, GTA, and worldwide.">
   <meta name="keywords" content="solution architecture, database administration, data engineering, web application development, SQL Server, Azure, Microsoft Fabric, Power BI, .NET, Python, Kubernetes, cloud infrastructure, Ontario, Canada">
   <meta property="og:title" content="Cyberspace Building Corp">
   <meta property="og:description" content="Enterprise solution architecture, database administration, data engineering, web application development and cloud infrastructure consulting.">
@@ -50,7 +50,7 @@
     <svg class="nav__search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
       <circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/>
     </svg>
-    <input type="text" class="nav__search-input" id="searchInput" placeholder="Search capabilities..." autocomplete="off" spellcheck="false"/>
+    <input type="text" class="nav__search-input" id="searchInput" placeholder="Search..." autocomplete="off" spellcheck="false"/>
     <div class="search-results" id="searchResults"></div>
   </div>
 </nav>
@@ -62,8 +62,8 @@
 <div class="hero-fixed" id="heroFixed">
   <div class="hero__qualifier" id="heroQualifier">
     Enterprise solution architecture,<br>
-    data engineering, and cloud infrastructure<br>
-    for organizations where the stack is strategic.
+    data engineering, cloud infrastructure,<br>
+    and full-stack software development.
   </div>
 
   <div class="hero__headline" aria-label="Data. Cloud. Architecture.">
@@ -87,104 +87,13 @@
 </div>
 
 <!-- CARD STAGE — fixed, cards appear here -->
+<!-- Card content injected from services.json + contact.json at build time -->
 <div class="card-stage" id="cardStage">
-
-  <!-- Database -->
-  <div class="stage-card" id="card-database">
-    <div class="card__badge" style="color:#33aaff;border:1px solid #33aaff33">DATABASE //</div>
-    <h2 class="card__title">Database Infrastructure</h2>
-    <p class="card__text">Enterprise database infrastructure designed for reliability, security, and scale. SQL Server architecture, performance engineering, and high-availability design for organizations where data availability is non-negotiable.</p>
-    <p class="card__text">Always-On Availability Groups, automated failover, real-time monitoring, and security hardening — delivered across large enterprise and public-sector environments. One modernization program achieved 99.9% uptime and an 81% reduction in application vulnerabilities.</p>
-    <div class="card__tech-grid">
-      <span class="card__tech-item"><span class="card__tech-dot" style="background:#33aaff"></span>SQL Server 2005–present</span>
-      <span class="card__tech-item"><span class="card__tech-dot" style="background:#33aaff"></span>Azure SQL / Managed Instance</span>
-      <span class="card__tech-item"><span class="card__tech-dot" style="background:#33aaff"></span>Always-On Availability Groups</span>
-      <span class="card__tech-item"><span class="card__tech-dot" style="background:#33aaff"></span>Performance Tuning</span>
-      <span class="card__tech-item"><span class="card__tech-dot" style="background:#33aaff"></span>Automated Backup &amp; DR</span>
-      <span class="card__tech-item"><span class="card__tech-dot" style="background:#33aaff"></span>Database Security &amp; Compliance</span>
-    </div>
-  </div>
-
-  <!-- App Dev -->
-  <div class="stage-card" id="card-appdev">
-    <div class="card__badge" style="color:#33ffdd;border:1px solid #33ffdd33">APP DEV //</div>
-    <h2 class="card__title">Application Development</h2>
-    <p class="card__text">Full-stack enterprise application development with a backend and middle-tier focus. .NET services, Python tooling, React frontends, and REST API design that integrates cleanly with your data platforms and infrastructure.</p>
-    <p class="card__text">Applications built to connect data platforms to the people and systems that depend on them — APIs, automation tooling, and web applications delivered across complex enterprise environments. Recent work includes AI-assisted data migrations and AI-integrated development workflows.</p>
-    <div class="card__tech-grid">
-      <span class="card__tech-item"><span class="card__tech-dot" style="background:#33ffdd"></span>.NET / C# / ASP.NET Core</span>
-      <span class="card__tech-item"><span class="card__tech-dot" style="background:#33ffdd"></span>Python</span>
-      <span class="card__tech-item"><span class="card__tech-dot" style="background:#33ffdd"></span>React / TypeScript</span>
-      <span class="card__tech-item"><span class="card__tech-dot" style="background:#33ffdd"></span>REST API Design</span>
-      <span class="card__tech-item"><span class="card__tech-dot" style="background:#33ffdd"></span>AI/ML Integration</span>
-      <span class="card__tech-item"><span class="card__tech-dot" style="background:#33ffdd"></span>Microservices Architecture</span>
-    </div>
-  </div>
-
-  <!-- Cloud -->
-  <div class="stage-card" id="card-cloud">
-    <div class="card__badge" style="color:#aa66ff;border:1px solid #aa66ff33">CLOUD //</div>
-    <h2 class="card__title">Cloud Infrastructure</h2>
-    <p class="card__text">Azure infrastructure design and delivery for organizations modernizing beyond on-premises or managing hybrid environments. Database services, CI/CD pipelines, containerized workloads, and infrastructure-as-code.</p>
-    <p class="card__text">Certified Azure Database Administrator with hands-on delivery across Azure DevOps, Docker, Kubernetes, and Bicep/ARM. Experienced in hybrid environments where cloud and on-premises systems need to operate as a coherent, well-governed whole.</p>
-    <div class="card__tech-grid">
-      <span class="card__tech-item"><span class="card__tech-dot" style="background:#aa66ff"></span>Microsoft Azure</span>
-      <span class="card__tech-item"><span class="card__tech-dot" style="background:#aa66ff"></span>Docker &amp; Kubernetes</span>
-      <span class="card__tech-item"><span class="card__tech-dot" style="background:#aa66ff"></span>Azure DevOps CI/CD</span>
-      <span class="card__tech-item"><span class="card__tech-dot" style="background:#aa66ff"></span>Azure Functions</span>
-      <span class="card__tech-item"><span class="card__tech-dot" style="background:#aa66ff"></span>Infrastructure as Code</span>
-      <span class="card__tech-item"><span class="card__tech-dot" style="background:#aa66ff"></span>Hybrid Cloud Architecture</span>
-    </div>
-  </div>
-
-  <!-- Data Platform -->
-  <div class="stage-card" id="card-data">
-    <div class="card__badge" style="color:#ffaa33;border:1px solid #ffaa3333">DATA PLATFORM //</div>
-    <h2 class="card__title">Data Engineering</h2>
-    <p class="card__text">Modern data platforms built on Microsoft Fabric, Databricks, and Power BI — from Lakehouse architecture and pipeline design through to semantic models, real-time analytics, and operational dashboards.</p>
-    <p class="card__text">Medallion Architecture implementation, real-time infrastructure monitoring with Fabric Eventhouse and KQL, and SSRS-to-Power BI migration including semantic model development and Git-integrated deployment pipelines.</p>
-    <div class="card__tech-grid">
-      <span class="card__tech-item"><span class="card__tech-dot" style="background:#ffaa33"></span>Microsoft Fabric / Lakehouse</span>
-      <span class="card__tech-item"><span class="card__tech-dot" style="background:#ffaa33"></span>Azure Synapse / Databricks</span>
-      <span class="card__tech-item"><span class="card__tech-dot" style="background:#ffaa33"></span>Power BI / Semantic Models</span>
-      <span class="card__tech-item"><span class="card__tech-dot" style="background:#ffaa33"></span>SSIS / ELT Pipelines</span>
-      <span class="card__tech-item"><span class="card__tech-dot" style="background:#ffaa33"></span>Real-time Streaming (KQL)</span>
-      <span class="card__tech-item"><span class="card__tech-dot" style="background:#ffaa33"></span>Data Governance &amp; Quality</span>
-    </div>
-  </div>
-
-  <!-- Architecture -->
-  <div class="stage-card" id="card-architecture">
-    <div class="card__badge" style="color:#dd88ff;border:1px solid #dd88ff33">ARCHITECTURE //</div>
-    <h2 class="card__title">Solution Architecture</h2>
-    <p class="card__text">System-level thinking that connects platforms, teams, and investments into a coherent whole. Integration design, API strategy, security governance, and technical roadmapping for organizations managing complex or evolving technology portfolios.</p>
-    <p class="card__text">Application modernization, vendor governance, and cross-platform integration design delivered across large enterprise and public-sector environments. One engagement repositioned an Ontario public institution into the top 2% provincially for security posture.</p>
-    <div class="card__tech-grid">
-      <span class="card__tech-item"><span class="card__tech-dot" style="background:#dd88ff"></span>Enterprise Architecture</span>
-      <span class="card__tech-item"><span class="card__tech-dot" style="background:#dd88ff"></span>API Strategy &amp; Design</span>
-      <span class="card__tech-item"><span class="card__tech-dot" style="background:#dd88ff"></span>Security &amp; Compliance</span>
-      <span class="card__tech-item"><span class="card__tech-dot" style="background:#dd88ff"></span>Integration Patterns</span>
-      <span class="card__tech-item"><span class="card__tech-dot" style="background:#dd88ff"></span>Technical Roadmapping</span>
-      <span class="card__tech-item"><span class="card__tech-dot" style="background:#dd88ff"></span>Stakeholder Communication</span>
-    </div>
-  </div>
-
-  <!-- Contact -->
+  <!--SERVICE_CARDS-->
+  <!-- Contact — content injected from contact.json at build time -->
   <div class="stage-card" id="card-contact">
-    <div class="card__badge" style="color:#5cb8ff;border:1px solid #5cb8ff33">CONTACT //</div>
-    <h2 class="card__title">Get In Touch</h2>
-    <p class="card__text">Cyberspace Building Corp. delivers enterprise solution architecture, data engineering, and cloud infrastructure consulting. Serving Simcoe County, Greater Toronto Area, and worldwide.</p>
-    <div class="card__contact-links">
-      <a class="card__contact-link" href="mailto:services@cyberbuild.ca">
-        <span class="card__contact-icon">@</span>services@cyberbuild.ca
-      </a>
-      <a class="card__contact-link" href="https://gregpeterson.cyberbuild.ca" target="_blank" rel="noopener">
-        <span class="card__contact-icon">&#8599;</span>gregpeterson.cyberbuild.ca
-      </a>
-    </div>
-    <div class="card__location">Simcoe County &middot; GTA &middot; Worldwide // EST (UTC&minus;5)</div>
+    <!--CONTACT_CARD-->
   </div>
-
 </div>
 
 
