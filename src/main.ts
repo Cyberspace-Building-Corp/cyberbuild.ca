@@ -69,16 +69,20 @@ function showCard(key: string | null): void {
   setActiveNav(block);
 }
 
-// --- Nav scroll ---
-const navToSection: Record<string, string> = {
-  overview:     'sec-hero',
-  database:     'sec-database',
-  appdev:       'sec-appdev',
-  cloud:        'sec-cloud',
-  data:         'sec-data',
-  architecture: 'sec-architecture',
-  contact:      'sec-contact',
-};
+// --- Carousel state ---
+const cardKeys: Array<string | null> = [null, 'database', 'appdev', 'cloud', 'data', 'architecture', 'contact'];
+let currentIndex = 0;
+let isAnimating = false;
+
+function goToCard(newIdx: number): void {
+  if (isAnimating) return;
+  const clamped = Math.max(0, Math.min(newIdx, cardKeys.length - 1));
+  if (clamped === currentIndex) return;
+  isAnimating = true;
+  currentIndex = clamped;
+  showCard(cardKeys[currentIndex]);
+  setTimeout(() => { isAnimating = false; }, 700);
+}
 
 function setActiveNav(block: string): void {
   navLinks.forEach((a) => a.classList.toggle('nav__link--active', a.dataset.block === block));
@@ -90,13 +94,13 @@ navLinks.forEach((a) => {
     nav.classList.remove('nav--open');
     navToggle.setAttribute('aria-expanded', 'false');
     const block = a.dataset.block!;
-    const targetId = navToSection[block] || 'sec-hero';
-    document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' });
+    const idx = cardKeys.indexOf(block === 'overview' ? null : block);
+    if (idx !== -1) goToCard(idx);
   });
 });
 
 document.getElementById('logoHome')?.addEventListener('click', () => {
-  document.getElementById('sec-hero')?.scrollIntoView({ behavior: 'smooth' });
+  goToCard(0);
 });
 
 navToggle.addEventListener('click', () => {
@@ -105,31 +109,28 @@ navToggle.addEventListener('click', () => {
   navToggle.setAttribute('aria-expanded', String(next));
 });
 
-// --- Scroll observer — determines which card to show ---
-const scrollSections = document.querySelectorAll<HTMLElement>('.scroll-section');
+// Wheel
+window.addEventListener('wheel', (e) => {
+  if (Math.abs(e.deltaY) < 10) return;
+  if (e.deltaY > 0) goToCard(currentIndex + 1);
+  else goToCard(currentIndex - 1);
+}, { passive: true });
 
-const sectionObserver = new IntersectionObserver(
-  (entries) => {
-    // Find the most-visible section that is intersecting
-    let best: { key: string; ratio: number } = { key: '', ratio: 0 };
-    entries.forEach((entry) => {
-      if (entry.isIntersecting && entry.intersectionRatio > best.ratio) {
-        best = {
-          key:   (entry.target as HTMLElement).dataset.card || '',
-          ratio: entry.intersectionRatio,
-        };
-      }
-    });
-    // Only update if we have a clear winner
-    if (best.ratio > 0) showCard(best.key || null);
-  },
-  {
-    threshold: [0.25, 0.5, 0.75],
-    rootMargin: '-5% 0px -5% 0px',
-  }
-);
+// Touch
+let touchStartY = 0;
+window.addEventListener('touchstart', (e) => { touchStartY = e.touches[0].clientY; }, { passive: true });
+window.addEventListener('touchend', (e) => {
+  const dy = touchStartY - e.changedTouches[0].clientY;
+  if (Math.abs(dy) < 40) return;
+  if (dy > 0) goToCard(currentIndex + 1);
+  else goToCard(currentIndex - 1);
+}, { passive: true });
 
-scrollSections.forEach((s) => sectionObserver.observe(s));
+// Keyboard
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowDown' || e.key === 'ArrowRight') goToCard(currentIndex + 1);
+  else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') goToCard(currentIndex - 1);
+});
 
 // --- Hero entrance animations ---
 window.addEventListener('load', () => {
@@ -179,8 +180,9 @@ function doSearch(query: string): void {
     item.addEventListener('click', () => {
       searchResults.classList.remove('search-results--open');
       searchInput.value = '';
-      const targetId = navToSection[item.dataset.key as string] || 'sec-hero';
-      document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' });
+      const key = item.dataset.key as string;
+      const idx = cardKeys.indexOf(key === 'overview' ? null : key);
+      if (idx !== -1) goToCard(idx);
     });
   });
 }

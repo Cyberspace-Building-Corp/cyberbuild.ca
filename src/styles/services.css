@@ -3,16 +3,6 @@
    Fixed overlay, cards slide in from right
    ============================================ */
 
-/* Scroll driver — invisible, creates scroll space */
-.scroll-driver {
-  position: relative;
-  z-index: 0;
-}
-
-.scroll-section {
-  height: 100vh;
-}
-
 /* ============================================
    Card Stage — fixed, centered
    ============================================ */
