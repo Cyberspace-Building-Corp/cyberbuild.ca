@@ -122,8 +122,8 @@ window.addEventListener('touchstart', (e) => { touchStartY = e.touches[0].client
 window.addEventListener('touchend', (e) => {
   const dy = touchStartY - e.changedTouches[0].clientY;
   if (Math.abs(dy) < 40) return;
-  if (dy > 0) goToCard(currentIndex + 1);
-  else goToCard(currentIndex - 1);
+  if (dy > 0) goToCard(currentIndex - 1);
+  else goToCard(currentIndex + 1);
 }, { passive: true });
 
 // Keyboard
