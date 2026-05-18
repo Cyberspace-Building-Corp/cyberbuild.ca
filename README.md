@@ -84,5 +84,12 @@ All required dependencies and types are declared in `package.json`, so `bun inst
 
 ## Deployment
 
-Static site — deploy `dist/` to any CDN (Vercel, Cloudflare Pages, etc.)
-```
+This site is deployed as a Cloudflare Worker with static assets.
+
+- `cyberbuild.ca` is the canonical public website.
+- `cyberspacebuildingcorp.ca` and `www.cyberspacebuildingcorp.ca` are legacy
+  public-site aliases and must redirect to `https://cyberbuild.ca`.
+- Platform subdomains such as `login.cyberspacebuildingcorp.ca`,
+  `auth.cyberspacebuildingcorp.ca`, and `ops.cyberspacebuildingcorp.ca` are not
+  public-site aliases. They belong to the platform edge and must not be routed
+  through this website Worker.
